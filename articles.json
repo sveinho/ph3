@@ -1,1 +1,93 @@
+[
+  {
+    "id": 1,
+    "dataType": "plain text",
+    "title": "PDF/A (Portable Document Format Archive)",
+    "abstract": "An ISO-standardized version of PDF specialized for the long-term digital preservation of electronic documents.",
+    "content": "PDF/A ensures documents can be reproduced exactly the same way regardless of the software used, by embedding all resources natively.\n\n### 1. Recommendation Criteria\nIt is the premier recommendation for archiving text documents, reports, and static publications. It guarantees that fonts, color profiles, and formatting layout are locked directly into the file.\n\n### 2. Migration Risks\nStandard PDFs should actively be migrated to PDF/A before archiving. Interactive elements like JavaScript, audio/video streams, and external font links must be stripped during migration.\n\n### 3. Technical Limitations\nFiles are significantly larger than standard compressed PDFs. It is debated for dataset storage as it locks raw data into a visual layout rather than keeping it machine-readable.",
+    "identification": "### Format Identification\n- **Byte Signature (Magic Bytes):** Starts with `%PDF-` (Hex: `25 50 44 46`).\n- **Structural Analysis:** Looks for a specific dictionary key `pdfaid:part` and `pdfaid:conformance` embedded inside the XMP metadata stream.\n- **Content Analysis:** Identified using tools like JHOVE or PRONOM (Siegfried/Droid) with PUID `fmt/354` (for PDF/A-1b).",
+    "tags": ["recommendable"]
+  },
+  {
+    "id": 2,
+    "dataType": "code",
+    "title": "XML (Extensible Markup Language)",
+    "abstract": "A flexible, human-readable text format used to define and structure complex datasets and hierarchical information.",
+    "content": "XML uses a self-describing tag structure, making it highly interoperable across completely different software ecosystems.\n\n### 1. Recommendation Criteria\nHighly recommended for encoding metadata, complex relational data, and configuration files due to its rigid structural rules and platform independence.\n\n### 2. Migration Risks\nExtremely stable with very low migration risks. The primary preservation requirement is ensuring the file is explicitly encoded and saved in standard UTF-8 or UTF-16 to prevent character corruption.\n\n### 3. Technical Limitations\nFiles can become highly verbose and bulky, leading to larger file sizes compared to modern binary alternatives or JSON. It can be debated for extremely massive real-time data streaming.",
+    "identification": "### Format Identification\n- **Byte Signature (Magic Bytes):** Starts with `<?xml` (Hex: `3C 3F 78 6D 6C`) if no Byte Order Mark (BOM) is present.\n- **Structural Analysis:** Verified through well-formedness rules (matching opening/closing tags, valid root element) and schema validation (XSD/DTD).\n- **Content Analysis:** Registered under PRONOM PUID `fmt/101`.",
+    "tags": ["recommendable"]
+  },
+  {
+    "id": 3,
+    "dataType": "images",
+    "title": "TIFF (Tagged Image File Format)",
+    "abstract": "A flexible, industry-standard raster format heavily utilized in professional archiving and high-end photography.",
+    "content": "TIFF files can be saved completely uncompressed or using lossless compression, guaranteeing perfect pixel preservation.\n\n### 1. Recommendation Criteria\nThe absolute standard for archival master files, digitization projects, and high-fidelity printing due to its massive color depth support (up to 64-bit).\n\n### 2. Migration Risks\nStable but complex. If files are stored using rare or proprietary compression variants (like LZW or JPEG-in-TIFF), they should be migrated to uncompressed TIFF to ensure future readability.\n\n### 3. Technical Limitations\nFile sizes are exceptionally massive, making them completely debated and unsuited for direct web deployment or fast streaming scenarios.",
+    "identification": "### Format Identification\n- **Byte Signature (Magic Bytes):** Starts with `II*` (Hex: `49 49 2A 00` for Little-Endian) or `MM` (Hex: `4D 4D 00 2A` for Big-Endian).\n- **Structural Analysis:** Parsed by reading the Image File Directory (IFD) which contains tags describing image dimensions, bit depth, and compression type.\n- **Content Analysis:** Identified via PRONOM signature PUID `fmt/156` using Droid or Siegfried.",
+    "tags": ["recommendable"]
+  },
+  {
+    "id": 4,
+    "dataType": "structured data",
+    "title": "TSV (Tab-Separated Values)",
+    "abstract": "A plain-text file format used for storing tabular data, separating values strictly with horizontal tabs.",
+    "content": "TSV operates identically to CSV but replaces commas with tab delimiters, eliminating character collisions.\n\n### 1. Recommendation Criteria\nHighly recommended for data science, bioinformatics, and relational databases. Because text cells often contain natural commas, using a tab character guarantees that rows and columns are never accidentally split or corrupted during intake.\n\n### 2. Migration Risks\nExtremely low migration risk due to its plain-text nature. Like CSV, the main requirement is ensuring the dataset is explicitly saved using standard UTF-8 encoding to preserve specialized or localized characters.\n\n### 3. Technical Limitations\nIt cannot store relational schemas, formulas, cell formatting, or metadata within the file itself. It is debated when human readability is favored over machine ingestion, as tabs can look unaligned in basic text editors.",
+    "identification": "### Format Identification\n- **Byte Signature (Magic Bytes):** No unique header bytes. Read as plain text character streams.\n- **Structural Analysis:** Verified by scanning the file for horizontal tab characters (Hex: `09`) separating uniform columns, ended by standard line endings (`CRLF` or `LF`).\n- **Content Analysis:** Profiled by Siegfried using PRONOM PUID `x-fmt/16`.",
+    "tags": ["recommendable"]
+  },
+  {
+    "id": 5,
+    "dataType": "images",
+    "title": "PNG (Portable Network Graphics)",
+    "abstract": "A popular raster graphics format that utilizes lossless compression and supports alpha channel transparency.",
+    "content": "PNG was created as a patent-free alternative to GIF, optimizing web graphics, screenshots, and digital illustrations.\n\n### 1. Recommendation Criteria\nHighly recommended for digital-only images, web graphics, and charts requiring alpha transparency or sharp text lines without compression artifacts.\n\n### 2. Migration Risks\nVery stable for general digital ecosystems. However, for extreme long-term preservation of historical cultural heritage, master files should ideally be stored as uncompressed TIFF.\n\n### 3. Technical Limitations\nDoes not natively support CMYK color spaces, making it unsuited and debated for professional print workflows. File sizes are also much larger than lossy JPEGs for photographs.",
+    "identification": "### Format Identification\n- **Byte Signature (Magic Bytes):** Starts with an 8-byte signature `\u0089PNG\r\n\u001a\n` (Hex: `89 50 4E 47 0D 0A 1A 0A`).\n- **Structural Analysis:** Built using a sequence of mandatory chunks: `IHDR` (header details), `IDAT` (image data chunks), and `IEND` (trailer indicator).\n- **Content Analysis:** PRONOM PUID `fmt/11` (for PNG 1.0) or `fmt/12` (for PNG 1.1).",
+    "tags": ["recommendable"]
+  },
+  {
+    "id": 6,
+    "dataType": "structured data",
+    "title": "XLS (Microsoft Excel Spreadsheet - Legacy)",
+    "abstract": "A legacy binary file format developed by Microsoft for storing tabular spreadsheet data.",
+    "content": "XLS was the default format for Excel spreadsheets prior to the introduction of the open XML standard (XLSX) in 2007.\n\n### 1. Recommendation Criteria\nIt is rarely recommended today, but it is useful as an ingress format when extracting historical business datasets or financial archives.\n\n### 2. Migration Risks\n**Highly Migratable.** Because XLS is a complex, proprietary binary structure, it faces severe obsolescence risks. All legacy XLS files should be actively migrated to open formats like CSV/TSV for raw data, or modern XLSX/ODS for preserved formulas.\n\n### 3. Technical Limitations\nIt has a hard structural limit of 65,536 rows and 256 columns. It cannot be parsed easily by modern open-source data scripts without legacy dependencies.",
+    "identification": "### Format Identification\n- **Byte Signature (Magic Bytes):** Starts with the standard OLE2 Compound Document header (Hex: `D0 CF 11 E0 A1 B1 1A E1`).\n- **Structural Analysis:** Analyzed using Microsoft's structured storage format, which mimics a file system inside a single file containing individual streams like 'Workbook'.\n- **Content Analysis:** Tracked by PRONOM as PUID `x-fmt/276` (Excel 97-2003).",
+    "tags": ["migratable"]
+  },
+  {
+    "id": 7,
+    "dataType": "plain text",
+    "title": "DOC (Microsoft Word Document - Legacy)",
+    "abstract": "A legacy proprietary binary word processing format developed by Microsoft.",
+    "content": "DOC was the dominant standard for word processing for decades before being replaced by the open DOCX standard.\n\n### 1. Recommendation Criteria\nOnly used when managing or processing legacy digital archives and historic documentation batches.\n\n### 2. Migration Risks\n**Highly Migratable.** Being a closed binary format, its inner layout is highly complex and dependent on specific software versions. To secure long-term readability, DOC files must be migrated into standard PDF/A or open text formats (like markdown or TXT).\n\n### 3. Technical Limitations\nFormatting layouts often break or distort when opened in anything other than original Microsoft Word versions. It can also harbor malicious macro-viruses hidden in the binary stream.",
+    "identification": "### Format Identification\n- **Byte Signature (Magic Bytes):** Shares the same OLE2 Compound Document header (Hex: `D0 CF 11 E0 A1 B1 1A E1`).\n- **Structural Analysis:** Contains internal stream names specific to text editing, primarily the `WordDocument` stream.\n- **Content Analysis:** Profiled by Siegfried using PRONOM PUID `x-fmt/45` (Word 97-2003).",
+    "tags": ["migratable"]
+  },
+  {
+    "id": 8,
+    "dataType": "audiovisual data",
+    "title": "MP3 (MPEG-1 Audio Layer III)",
+    "abstract": "A widely adopted lossy digital audio compression format using psychoacoustic modeling.",
+    "content": "MP3 revolutionized music distribution by reducing audio file sizes by up to 90% while retaining decent perceptual quality.\n\n### 1. Recommendation Criteria\nExcellent for general distribution, web delivery, streaming, and podcasting due to its tiny footprint and maximum hardware compatibility.\n\n### 2. Migration Risks\n**Migratable for Master Audio.** Because it permanently deletes acoustic frequencies during compression, it should be migrated to uncompressed WAV (PCM) or lossless FLAC if you are archiving unique oral histories or musical masters to prevent further generational decay.\n\n### 3. Technical Limitations\nIt does not support modern multi-channel surround sound configurations natively and permanently alters the raw audio spectrum.",
+    "identification": "### Format Identification\n- **Byte Signature (Magic Bytes):** Starts with an ID3 tag header `ID3` (Hex: `49 44 33`) if tagged, or an audio frame sync bit pattern starting with `FF FB` or `FF F3`.\n- **Structural Analysis:** Analyzed by breaking down consecutive MPEG audio frames, each consisting of a header, error protection bits, and audio data.\n- **Content Analysis:** Monitored via PRONOM PUID `fmt/134`.",
+    "tags": ["migratable"]
+  },
+  {
+    "id": 9,
+    "dataType": "images",
+    "title": "GIF (Graphics Interchange Format)",
+    "abstract": "An older, heavily compressed bitmap image format famous for supporting short animations.",
+    "content": "GIF uses lossless LZW compression but is structurally crippled by a very strict color palette ceiling.\n\n### 1. Recommendation Criteria\nOnly recommended for basic web animations or retro-compatibility scenarios where modern video formats cannot be rendered.\n\n### 2. Migration Risks\nStable but highly inefficient. Static GIFs should be migrated to PNG, and animated GIFs should ideally be converted to modern, highly compressed video containers like MP4 or WebM.\n\n### 3. Technical Limitations\n**Highly Debatable.** It is limited to a maximum of 256 colors, making it completely useless for photographs or smooth color gradients. Its animation handling causes massive file sizes compared to actual modern video files.",
+    "identification": "### Format Identification\n- **Byte Signature (Magic Bytes):** Starts with ASCII string `GIF87a` (Hex: `47 49 46 38 37 61`) or `GIF89a` (Hex: `47 49 46 38 39 61`).\n- **Structural Analysis:** Validated through a logical screen descriptor block, local image descriptor blocks, and an end trailer byte `3B`.\n- **Content Analysis:** Evaluated by PRONOM PUID `fmt/4` (for GIF89a).",
+    "tags": ["debatable"]
+  },
+  {
+    "id": 10,
+    "dataType": "other binaries",
+    "title": "EXE (Windows Executable File)",
+    "abstract": "A binary executable file format containing compiled machine code for the Windows operating system.",
+    "content": "EXE files are executable programs, meaning they do not store passive data, but rather instruction sets for computers to execute.\n\n### 1. Recommendation Criteria\nOnly kept in software archiving and emulation registry systems attempting to preserve historic digital environments.\n\n### 2. Migration Risks\nExtremely difficult to preserve. When the underlying operating systems or CPU architectures change, the compiled machine code inside an EXE becomes useless without heavy hardware emulation layers.\n\n### 3. Technical Limitations\n**Highly Debatable.** It represents a massive cybersecurity hazard as it can execute arbitrary malicious code. It is completely non-human readable, proprietary, and locked to specific runtime environments.",
+    "identification": "### Format Identification\n- **Byte Signature (Magic Bytes):** Starts with the ASCII signature `MZ` (Hex: `4D 5A`), named after architect Mark Zbikowski.\n- **Structural Analysis:** Analyzed using the Portable Executable (PE) file structure, which defines internal COFF headers, section tables (like `.text` for code, `.data` for variables), and import/export tables.\n- **Content Analysis:** Classified under PRONOM PUID `fmt/899`.",
+    "tags": ["debatable"]
+  }
+]
 
