@@ -8,9 +8,6 @@ body {
   padding: 0 20px;
   background-color: #fcfcfc;
   color: #333;
-  
-  /* ULTIMAT FIX FOR RULLEFELT: Tvinger rullefeltet til å alltid være der, 
-     slik at bredden på siden er 100% identisk om du har 1 eller 100 artikler. */
   overflow-y: scroll; 
 }
 
