@@ -122,6 +122,47 @@
     "title": "DOCX (Office Open XML Document)",
     "abstract": "The modern zipped XML-based file format developed by Microsoft for rich text documents.",
     "content": "DOCX replaced the older binary `.doc` format in 2007, shifting Microsoft Office toward open and standardized XML specifications.\n\n### 1. Recommendation Criteria\nHighly recommended for active office environments, text editing, and everyday document sharing due to its open-standard nature and wide software support.\n\n### 2. Migration Risks\n**Migratable for Preservation.** While vastly superior to legacy binary `.doc`, complex text layouts in DOCX can still render slightly differently outside Microsoft ecosystems. For static, long-term archiving, DOCX files should be migrated to PDF/A.\n\n### 3. Technical Limitations\nIt is an intricate container holding dozens of linked XML structures, stylesheets, and asset media files, making it heavy and debated for simple plain-text mining.\n\n*Software:* 
-  
+   },
+  {
+    "id": 15,
+    "dataType": "structured data",
+    "title": "XLSX (Office Open XML Spreadsheet)",
+    "abstract": "The modern zipped XML-based spreadsheet format used for mathematical formulas and tabular computations.",
+    "content": "XLSX serves as the open-standard successor to the proprietary binary `.xls` format, introducing significantly enhanced row capacity.\n\n### 1. Recommendation Criteria\nExcellent for active financial modeling, data tracking, and dynamic calculations where complex multi-sheet formulas must remain operational.\n\n### 2. Migration Risks\n**Migratable for Data Archiving.** While an open standard, complex sheets can harbor hidden dependencies or macros. If the goal is purely to preserve raw data for centuries, XLSX datasets should be migrated to flat CSV or TSV files.\n\n### 3. Technical Limitations\nFormulas can easily break or produce errors if opened in third-party non-Microsoft engines. It is debated for preservation because data values are intertwined with calculation scripts.\n\n*Software:* Microsoft Excel, LibreOffice Calc, Google Sheets.",
+    "identification": "### Format Identification\n- **Byte Signature (Magic Bytes):** Shares the same standard ZIP file header `PK..` (Hex: `50 4B 03 04`).\n- **Structural Analysis:** When unzipped, profiling engines look for a root folder mapping containing `[Content_Types].xml` and a core subfolder named `xl/` containing `workbook.xml`.\n- **Content Analysis:** Maintained in the PRONOM database under PUID `fmt/214`.",
+    "tags": ["migratable"]
+  },
+  {
+    "id": 16,
+    "dataType": "code",
+    "title": "DTD (Document Type Definition)",
+    "abstract": "A legacy configuration file format used to define the valid building blocks and rules of an XML document.",
+    "content": "DTD files specify the exact structure of an XML file by listing legal elements, attributes, and their relationships.\n\n### 1. Recommendation Criteria\nUseful in legacy database workflows and publishing industries that rely on historical XML document structures for validation.\n\n### 2. Migration Risks\n**Migratable for Modern Systems.** While a plain-text format, DTD uses an older, non-XML syntax. Modern data platforms require XML validation schemas to be written in XML syntax, making DTD a candidate for migration into XML Schema (XSD) files.\n\n### 3. Technical Limitations\n**Highly Debatable.** It does not support namespaces or modern complex data types (like numbers, dates, or ranges) – it treats almost all values purely as plain strings.\n\n*Software:* XML Editors, Oxygen XML Author, VS Code, Notepad++.",
+    "identification": "### Format Identification\n- **Byte Signature (Magic Bytes):** No unique header bytes. Read directly as an unformatted plain-text character stream.\n- **Structural Analysis:** Verified by scanning the file context for specialized configuration markup tags starting with `<!ELEMENT` or `<!ATTLIST`.\n- **Content Analysis:** Mapped in PRONOM registries under PUID `fmt/114`.",
+    "tags": ["migratable"]
+  },
+  {
+    "id": 17,
+    "dataType": "plain text",
+    "title": "MD (Markdown Documentation File)",
+    "abstract": "A lightweight plain-text format that uses simple punctuation syntax to describe formatting like bold, headers, and lists.",
+    "content": "Markdown files are written in pure human-readable text, making them extremely popular for software documentation (like README files) and web content generation.\n\n### 1. Recommendation Criteria\nHighly recommended for documentation and long-term text archiving. Because the styling is just regular punctuation (like asterisks for bold), the file remains 100% readable even if opened in the simplest text editor 100 years from now.\n\n### 2. Migration Risks\nExtremely low obsolescence risk. The only preservation action required is verifying that the file is stored with UTF-8 character encoding to prevent international or special characters from breaking.\n\n### 3. Technical Limitations\nIt lacks support for advanced typographic layouts, macro scripts, or complex embedded tables, which is debated if formal document publishing is required.\n\n*Software:* VS Code, Obsidian, Typora, Notepad, GitHub.",
+    "identification": "### Format Identification\n- **Byte Signature (Magic Bytes):** No unique header bytes. Read directly as an unformatted plain-text character stream.\n- **Structural Analysis:** Verified by parsing the text stream for standard Markdown indicators like headers (`#`), bullet points (`-` or `*`), or bold markup (`**`).\n- **Content Analysis:** Profiled by digital preservation tools under PRONOM PUID `fmt/1951`.",
+    "tags": ["recommendable"]
+  },
+  {
+    "id": 18,
+    "dataType": "plain text",
+    "title": "RTF (Rich Text Format)",
+    "abstract": "A proprietary but widely documented text file format developed by Microsoft for cross-platform document interchange.",
+    "content": "RTF encodes rich text elements like fonts, margins, and formatting into special control words written in plain ASCII text.\n\n### 1. Recommendation Criteria\nHistorically useful for transferring formatted documents between completely different word processors (like moving text between Mac and Windows in the 1990s).\n\n### 2. Migration Risks\n**Highly Migratable.** Microsoft discontinued development of the RTF specification back in 2008. Because the format is legacy and can have unpredictable rendering bugs in modern software, all archival RTF files should be migrated to standard PDF/A.\n\n### 3. Technical Limitations\n**Highly Debatable.** The files become extremely bloated and messy because every font change or layout tweak generates massive walls of hidden ASCII control codes, making raw text-mining very difficult.\n\n*Software:* 
+  },
+      {
+    "id": 19,
+    "dataType": "other binaries",
+    "title": "gLTF / GLB (Graphics Language Transmission Format)",
+    "abstract": "An open standard, royalty-free specification developed by the Khronos Group for the efficient transmission and loading of 3D scenes.",
+    "content": "Often described as the 'JPEG of 3D', gLTF minimizes both the size of 3D assets and the runtime processing needed to unpack them.\n\n### 1. Recommendation Criteria\nHighly recommended for 3D web applications, digital heritage preservation, and virtual reality (VR) delivery. It natively supports advanced PBR (Physically Based Rendering) materials, textures, animations, and hierarchical scenes while remaining universally readable in modern browsers.\n\n### 2. Migration Risks\nVery low obsolescence risk due to strict open governance. However, if using the binary version (GLB), ensure compression is kept to open standards (like Draco) so future archive extraction tools can easily decompress the binary streams.\n\n### 3. Technical Limitations\nIt is optimized for efficient rendering and display, meaning it is debated for high-precision manufacturing or mechanical CAD workflows where exact parametric math formulas are preferred over polygonal meshes.\n\n*Software:* 
+ }
 ]
 
