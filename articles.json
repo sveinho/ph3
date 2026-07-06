@@ -6,6 +6,7 @@
     "abstract": "An ISO-standardized version of PDF specialized for the long-term digital preservation of electronic documents.",
     "content": "PDF/A ensures documents can be reproduced exactly the same way regardless of the software used, by embedding all resources natively.\n\n### 1. Recommendation Criteria\nIt is the premier recommendation for archiving text documents, reports, and static publications. It guarantees that fonts, color profiles, and formatting layout are locked directly into the file.\n\n### 2. Migration Risks\nStandard PDFs should actively be migrated to PDF/A before archiving. Interactive elements like JavaScript, audio/video streams, and external font links must be stripped during migration.\n\n### 3. Technical Limitations\nFiles are significantly larger than standard compressed PDFs. It is debated for dataset storage as it locks raw data into a visual layout rather than keeping it machine-readable.",
     "identification": "### Format Identification\n- **Byte Signature (Magic Bytes):** Starts with `%PDF-` (Hex: `25 50 44 46`).\n- **Structural Analysis:** Looks for a specific dictionary key `pdfaid:part` and `pdfaid:conformance` embedded inside the XMP metadata stream.\n- **Content Analysis:** Identified using tools like JHOVE or PRONOM (Siegfried/Droid) with PUID `fmt/354` (for PDF/A-1b).",
+    "authority": "### Authority & Standards\n- **Governing Body:** ISO 19005 (International Organization for Standardization).\n- **Institutional Approval:** Highly recommended by the National Archives of Norway (Riksarkivet), the Library of Congress (LOC), and the UK National Archives for long-term document retention.",
     "tags": ["recommendable"]
   },
   {
@@ -14,6 +15,7 @@
     "title": "XML (Extensible Markup Language)",
     "abstract": "A flexible, human-readable text format used to define and structure complex datasets and hierarchical information.",
     "content": "XML uses a self-describing tag structure, making it highly interoperable across completely different software ecosystems.\n\n### 1. Recommendation Criteria\nHighly recommended for encoding metadata, complex relational data, and configuration files due to its rigid structural rules and platform independence.\n\n### 2. Migration Risks\nExtremely stable with very low migration risks. The primary preservation requirement is ensuring the file is explicitly encoded and saved in standard UTF-8 or UTF-16 to prevent character corruption.\n\n### 3. Technical Limitations\nFiles can become highly verbose and bulky, leading to larger file sizes compared to modern binary alternatives or JSON. It can be debated for extremely massive real-time data streaming.",
+    "authority": "### Authority & Standards\n- **Governing Body:** ISO 19005 (International Organization for Standardization).\n- **Institutional Approval:** Highly recommended by the National Archives of Norway (Riksarkivet), the Library of Congress (LOC), and the UK National Archives for long-term document retention.",
     "identification": "### Format Identification\n- **Byte Signature (Magic Bytes):** Starts with `<?xml` (Hex: `3C 3F 78 6D 6C`) if no Byte Order Mark (BOM) is present.\n- **Structural Analysis:** Verified through well-formedness rules (matching opening/closing tags, valid root element) and schema validation (XSD/DTD).\n- **Content Analysis:** Registered under PRONOM PUID `fmt/101`.",
     "tags": ["recommendable"]
   },
@@ -24,6 +26,7 @@
     "abstract": "A flexible, industry-standard raster format heavily utilized in professional archiving and high-end photography.",
     "content": "TIFF files can be saved completely uncompressed or using lossless compression, guaranteeing perfect pixel preservation.\n\n### 1. Recommendation Criteria\nThe absolute standard for archival master files, digitization projects, and high-fidelity printing due to its massive color depth support (up to 64-bit).\n\n### 2. Migration Risks\nStable but complex. If files are stored using rare or proprietary compression variants (like LZW or JPEG-in-TIFF), they should be migrated to uncompressed TIFF to ensure future readability.\n\n### 3. Technical Limitations\nFile sizes are exceptionally massive, making them completely debated and unsuited for direct web deployment or fast streaming scenarios.",
     "identification": "### Format Identification\n- **Byte Signature (Magic Bytes):** Starts with `II*` (Hex: `49 49 2A 00` for Little-Endian) or `MM` (Hex: `4D 4D 00 2A` for Big-Endian).\n- **Structural Analysis:** Parsed by reading the Image File Directory (IFD) which contains tags describing image dimensions, bit depth, and compression type.\n- **Content Analysis:** Identified via PRONOM signature PUID `fmt/156` using Droid or Siegfried.",
+    "authority": "### Authority & Standards\n- **Governing Body:** ISO 19005 (International Organization for Standardization).\n- **Institutional Approval:** Highly recommended by the National Archives of Norway (Riksarkivet), the Library of Congress (LOC), and the UK National Archives for long-term document retention.",
     "tags": ["recommendable"]
   },
   {
@@ -42,19 +45,21 @@
     "abstract": "A popular raster graphics format that utilizes lossless compression and supports alpha channel transparency.",
     "content": "PNG was created as a patent-free alternative to GIF, optimizing web graphics, screenshots, and digital illustrations.\n\n### 1. Recommendation Criteria\nHighly recommended for digital-only images, web graphics, and charts requiring alpha transparency or sharp text lines without compression artifacts.\n\n### 2. Migration Risks\nVery stable for general digital ecosystems. However, for extreme long-term preservation of historical cultural heritage, master files should ideally be stored as uncompressed TIFF.\n\n### 3. Technical Limitations\nDoes not natively support CMYK color spaces, making it unsuited and debated for professional print workflows. File sizes are also much larger than lossy JPEGs for photographs.",
     "identification": "### Format Identification\n- **Byte Signature (Magic Bytes):** Starts with an 8-byte signature (Hex: `89 50 4E 47 0D 0A 1A 0A`).\n- **Structural Analysis:** Built using a sequence of mandatory chunks: IHDR (header details), IDAT (image data chunks), and IEND (trailer indicator).\n- **Content Analysis:** PRONOM PUID `fmt/11` (for PNG 1.0) or `fmt/12` (for PNG 1.1).",
+     "authority": "### Authority & Standards\n- **Governing Body:** ISO 19005 (International Organization for Standardization).\n- **Institutional Approval:** Highly recommended by the National Archives of Norway (Riksarkivet), the Library of Congress (LOC), and the UK National Archives for long-term document retention.",
     "tags": ["recommendable"]
-  }
+  },
     {
-    "id": 11,
+    "id": 6,
     "dataType": "code",
     "title": "JSON (JavaScript Object Notation)",
     "abstract": "A lightweight, text-based, and human-readable format used for data interchange and storage.",
     "content": "JSON structures data using key-value pairs and arrays, making it the standard for web APIs and modern web application data configurations.\n\n### 1. Recommendation Criteria\nHighly recommended for data streaming, configuration layers, and transferring relational or hierarchical data between web servers and clients due to its minimal footprint.\n\n### 2. Migration Risks\nExtremely stable text format. Long-term preservation risks are low, but files must be explicitly validated and saved using standard UTF-8 encoding to prevent special character distortion.\n\n### 3. Technical Limitations\nIt does not support native binary data attachments (requires Base64 encoding) or inline structural comments, which is debated for complex configuration documentation.\n\n*Software:* VS Code, Node.js, Python, modern Web Browsers.",
     "identification": "### Format Identification\n- **Byte Signature (Magic Bytes):** Typically starts with a left curly bracket `{` (Hex: `7B`) or a left square bracket `[` (Hex: `5B`).\n- **Structural Analysis:** Profiled by checking valid object brackets, matching double-quoted keys, and standard value types (strings, numbers, booleans, null).\n- **Content Analysis:** Recognized by PRONOM as PUID `fmt/817`.",
+    "authority": "### Authority & Standards\n- **Governing Body:** ISO 19005 (International Organization for Standardization).\n- **Institutional Approval:** Highly recommended by the National Archives of Norway (Riksarkivet), the Library of Congress (LOC), and the UK National Archives for long-term document retention.",
     "tags": ["recommendable"]
   },
   {
-    "id": 12,
+    "id": 7,
     "dataType": "audiovisual data",
     "title": "MP4 (MPEG-4 Part 14 Container)",
     "abstract": "A multimedia container format universally used to store synchronized video, audio, and subtitle streams.",
@@ -63,12 +68,13 @@
     "tags": ["recommendable"]
   },
   {
-    "id": 13,
+    "id": 8,
     "dataType": "code",
     "title": "HTML (HyperText Markup Language)",
     "abstract": "The standard open-source markup language designed for structuring and presenting documents on the World Wide Web.",
     "content": "HTML dictates the layout and semantic structure of web content, interpreting elements into visible web pages through browsers.\n\n### 1. Recommendation Criteria\nHighly recommended for storing web publications, hypertext documentation, and interactive transcripts due to its open-source and future-proof nature.\n\n### 2. Migration Risks\nExtremely low migration risks. Web standards mandate backward compatibility, meaning older HTML files will render for decades. Ensure external assets (CSS/images) are embedded or archived locally alongside it.\n\n### 3. Technical Limitations\nIt relies entirely on browser interpretation, meaning rendering can vary across platforms. It is debated for standalone static documents since it easily links to broken external assets.\n\n*Software:* Google Chrome, Firefox, VS Code, Notepad.",
     "identification": "### Format Identification\n- **Byte Signature (Magic Bytes):** Often starts with `<!DOCTYPE html` (Hex: `3C 21 44 4F 43 54 59 50 45 20 68 74 6D 6C`) or a `<html>` tag.\n- **Structural Analysis:** Verified by validating elements against W3C standards, looking for semantic nested tags (`<head>`, `<body>`) and closing structures.\n- **Content Analysis:** Profiled by automated profiling tools under PRONOM PUID `fmt/96` (for HTML 4) or `fmt/471` (for HTML 5).",
+     "authority": "### Authority & Standards\n- **Governing Body:** ISO 19005 (International Organization for Standardization).\n- **Institutional Approval:** Highly recommended by the National Archives of Norway (Riksarkivet), the Library of Congress (LOC), and the UK National Archives for long-term document retention.",
     "tags": ["recommendable"]
   },
 {
@@ -81,21 +87,23 @@
     "tags": ["migratable"]
   },
   {
-    "id": 15,
+    "id": 9,
     "dataType": "code",
     "title": "DTD (Document Type Definition)",
     "abstract": "A legacy configuration file format used to define the valid building blocks and rules of an XML document.",
     "content": "DTD files specify the exact structure of an XML file by listing legal elements, attributes, and their relationships.\n\n### 1. Recommendation Criteria\nUseful in legacy database workflows and publishing industries that rely on historical XML document structures for validation.\n\n### 2. Migration Risks\n**Migratable for Modern Systems.** While a plain-text format, DTD uses an older, non-XML syntax. Modern data platforms require XML validation schemas to be written in XML syntax, making DTD a candidate for migration into XML Schema (XSD) files.\n\n### 3. Technical Limitations\n**Highly Debatable.** It does not support namespaces or modern complex data types (like numbers, dates, or ranges) – it treats almost all values purely as plain strings.\n\n*Software:* XML Editors, Oxygen XML Author, VS Code, Notepad++.",
+     "authority": "### Authority & Standards\n- **Governing Body:** ISO 19005 (International Organization for Standardization).\n- **Institutional Approval:** Highly recommended by the National Archives of Norway (Riksarkivet), the Library of Congress (LOC), and the UK National Archives for long-term document retention.",
     "identification": "### Format Identification\n- **Byte Signature (Magic Bytes):** No unique header bytes. Read directly as an unformatted plain-text character stream.\n- **Structural Analysis:** Verified by scanning the file context for specialized configuration markup tags starting with `<!ELEMENT` or `<!ATTLIST`.\n- **Content Analysis:** Mapped in PRONOM registries under PUID `fmt/114`.",
     "tags": ["migratable"]
   },
     {
-    "id": 16,
+    "id": 10,
     "dataType": "plain text",
     "title": "MD (Markdown Documentation File)",
     "abstract": "A lightweight plain-text format that uses simple punctuation syntax to describe formatting like bold, headers, and lists.",
     "content": "Markdown files are written in pure human-readable text, making them extremely popular for software documentation (like README files) and web content generation.\n\n### 1. Recommendation Criteria\nHighly recommended for documentation and long-term text archiving. Because the styling is just regular punctuation (like asterisks for bold), the file remains 100% readable even if opened in the simplest text editor 100 years from now.\n\n### 2. Migration Risks\nExtremely low obsolescence risk. The only preservation action required is verifying that the file is stored with UTF-8 character encoding to prevent international or special characters from breaking.\n\n### 3. Technical Limitations\nIt lacks support for advanced typographic layouts, macro scripts, or complex embedded tables, which is debated if formal document publishing is required.\n\n*Software:* VS Code, Obsidian, Typora, Notepad, GitHub.",
     "identification": "### Format Identification\n- **Byte Signature (Magic Bytes):** No unique header bytes. Read directly as an unformatted plain-text character stream.\n- **Structural Analysis:** Verified by parsing the text stream for standard Markdown indicators like headers (`#`), bullet points (`-` or `*`), or bold markup (`**`).\n- **Content Analysis:** Profiled by digital preservation tools under PRONOM PUID `fmt/1951`.",
+    "authority": "### Authority & Standards\n- **Governing Body:** ISO 19005 (International Organization for Standardization).\n- **Institutional Approval:** Highly recommended by the National Archives of Norway (Riksarkivet), the Library of Congress (LOC), and the UK National Archives for long-term document retention.",
     "tags": ["recommendable"]
   }
 ]
