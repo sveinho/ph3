@@ -28,23 +28,26 @@ h1 {
 }
 
 .data-type-btn {
-  padding: 10px 18px;
+  /* Fast topp/bunn-padding, ingen side-padding for å sikre låst bredde */
+  padding: 10px 0; 
   border: 1px solid #ccc;
   background: #fff;
   border-radius: 6px;
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-  /* Hindrer mikroforskyvning ved å låse rammestørrelsen */
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
   box-sizing: border-box; 
+  
+  /* Låser alle datakort-knapper til nøyaktig samme faste bredde */
+  width: 145px; 
+  text-align: center;
 }
 
 .data-type-btn:hover { 
   background: #f5f5f5; 
 }
 
-/* Dynamisk fargehenting via inline-variabel for alle datatyper */
 .data-type-btn.active {
   background-color: var(--active-color);
   border-color: var(--active-color);
@@ -109,40 +112,36 @@ h1 {
 }
 
 .tag-btn { 
-  padding: 8px 16px; 
+  padding: 8px 0; /* Låser venstre/høyre til 0 for absolutt statisk bredde */
   border: 1px solid #ddd; 
   background: #fff; 
   border-radius: 20px; 
   cursor: pointer; 
   font-size: 14px; 
   font-weight: 600;
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
   box-sizing: border-box;
   
-  /* FIX FOR HORISONTAL HOPPING: 
-     Gir knappene nok pusterom (minimumsbredde) til at tallene '(5)' 
-     kan dukke opp uten at knappen må utvide seg fysisk i bredden. */
-  min-width: 155px; 
+  /* ULTIMAT FIX: Vi endrer min-width til en fast 'width'. Nå har knappene 
+     nøyaktig samme bredde uansett tekstlengde, aktiv status eller tallendringer. */
+  width: 175px; 
   text-align: center;
 }
 
-/* Spesifikk justering for den første knappen som har lengre tekst fra før */
-.tag-btn[data-value="all"] {
-  min-width: 170px;
-}
+/* Siden alle knapper nå bruker fast 'width: 175px;', trenger vi ikke denne lenger:
+   .tag-btn[data-value="all"] { min-width: 170px; } 
+*/
 
 .tag-btn:hover:not(:disabled) { 
   background: #f5f5f5; 
 }
 
-/* Magisk fargehenting via inline-variabel (Grønn/Oransje/Rød/Blå) */
 .tag-btn.active {
   background-color: var(--active-color);
   border-color: var(--active-color);
   color: #fff;
 }
 
-/* Felles styling når en knapp blir deaktivert av søkelytteren */
 .tag-btn:disabled {
   opacity: 0.3 !important;
   cursor: not-allowed !important;
