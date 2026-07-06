@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "dataType": "plain text",
+    "dataType": "plaintext",
     "title": "PDF/A (Portable Document Format Archive)",
     "abstract": "An ISO-standardized version of PDF specialized for the long-term digital preservation of electronic documents.",
     "content": "PDF/A ensures documents can be reproduced exactly the same way regardless of the software used, by embedding all resources natively.\n\n### 1. Recommendation Criteria\nIt is the premier recommendation for archiving text documents, reports, and static publications. It guarantees that fonts, color profiles, and formatting layout are locked directly into the file.\n\n### 2. Migration Risks\nStandard PDFs should actively be migrated to PDF/A before archiving. Interactive elements like JavaScript, audio/video streams, and external font links must be stripped during migration.\n\n### 3. Technical Limitations\nFiles are significantly larger than standard compressed PDFs. It is debated for dataset storage as it locks raw data into a visual layout rather than keeping it machine-readable.",
@@ -28,7 +28,7 @@
   },
   {
     "id": 4,
-    "dataType": "structured data",
+    "dataType": "structureddata",
     "title": "TSV (Tab-Separated Values)",
     "abstract": "A plain-text file format used for storing tabular data, separating values strictly with horizontal tabs.",
     "content": "TSV operates identically to CSV but replaces commas with tab delimiters, eliminating character collisions.\n\n### 1. Recommendation Criteria\nHighly recommended for data science, bioinformatics, and relational databases. Because text cells often contain natural commas, using a tab character guarantees that rows and columns are never accidentally split or corrupted during intake.\n\n### 2. Migration Risks\nExtremely low migration risk due to its plain-text nature. Like CSV, the main requirement is ensuring the dataset is explicitly saved using standard UTF-8 encoding to preserve specialized or localized characters.\n\n### 3. Technical Limitations\nIt cannot store relational schemas, formulas, cell formatting, or metadata within the file itself. It is debated when human readability is favored over machine ingestion, as tabs can look unaligned in basic text editors.",
