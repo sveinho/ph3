@@ -1,0 +1,18 @@
+@prefix dcat: <http://w3.org> .
+@prefix dct: <http://purl.org> .
+@prefix xsd: <http://w3.org> .
+@prefix spdx: <http://spdx.org> .
+@prefix odrl: <http://w3.org> .
+
+<https://example.com> a dcat:Distribution ;
+    dct:title "CSV file format" ;
+    dct:format <http://europa.eu> ;
+    dcat:mediaType <https://iana.org> ;
+    dcat:accessURL <https://eksempel.no> ;
+    dct:conformsTo <https://eksempel.no> ;
+    dct:license <http://europa.eu> ;
+    dcat:compressFormat <http://europa.eu> ;
+    dcat:packageFormat <http://europa.eu> ;
+    dct:rights <https://eksempel.no> ;
+    dct:issued "2026-07-06T10:00:00Z"^^xsd:dateTime ;
+    dct:modified "2026-07-06T11:25:00Z"^^xsd:dateTime .
