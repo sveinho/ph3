@@ -234,7 +234,18 @@ mark {
   padding: 0 2px; 
   border-radius: 2px; 
 }
+.authority-content {
+  margin-top: 15px;
+  padding: 12px 16px;
+  background-color: #f0f4f8; /* Svak blå/grå bakgrunn */
+  border-left: 4px solid #0056b3; /* Blå stolpe som matcher status-knappene */
+  border-radius: 4px;
+}
 
+.authority-content p {
+  font-family: inherit;
+  color: #334155;
+}
 /* ==========================================================================
    7. UTILITY CLASSES (JAVASCRIPT DEPENDENCIES)
    ========================================================================== */
