@@ -118,13 +118,6 @@
   },
   {
     "id": 14,
-    "dataType": "plain text",
-    "title": "DOCX (Office Open XML Document)",
-    "abstract": "The modern zipped XML-based file format developed by Microsoft for rich text documents.",
-    "content": "DOCX replaced the older binary `.doc` format in 2007, shifting Microsoft Office toward open and standardized XML specifications.\n\n### 1. Recommendation Criteria\nHighly recommended for active office environments, text editing, and everyday document sharing due to its open-standard nature and wide software support.\n\n### 2. Migration Risks\n**Migratable for Preservation.** While vastly superior to legacy binary `.doc`, complex text layouts in DOCX can still render slightly differently outside Microsoft ecosystems. For static, long-term archiving, DOCX files should be migrated to PDF/A.\n\n### 3. Technical Limitations\nIt is an intricate container holding dozens of linked XML structures, stylesheets, and asset media files, making it heavy and debated for simple plain-text mining.\n\n*Software:* 
-   },
-  {
-    "id": 15,
     "dataType": "structured data",
     "title": "XLSX (Office Open XML Spreadsheet)",
     "abstract": "The modern zipped XML-based spreadsheet format used for mathematical formulas and tabular computations.",
@@ -133,7 +126,7 @@
     "tags": ["migratable"]
   },
   {
-    "id": 16,
+    "id": 15,
     "dataType": "code",
     "title": "DTD (Document Type Definition)",
     "abstract": "A legacy configuration file format used to define the valid building blocks and rules of an XML document.",
@@ -142,7 +135,7 @@
     "tags": ["migratable"]
   },
   {
-    "id": 17,
+    "id": 16,
     "dataType": "plain text",
     "title": "MD (Markdown Documentation File)",
     "abstract": "A lightweight plain-text format that uses simple punctuation syntax to describe formatting like bold, headers, and lists.",
@@ -156,13 +149,15 @@
     "title": "RTF (Rich Text Format)",
     "abstract": "A proprietary but widely documented text file format developed by Microsoft for cross-platform document interchange.",
     "content": "RTF encodes rich text elements like fonts, margins, and formatting into special control words written in plain ASCII text.\n\n### 1. Recommendation Criteria\nHistorically useful for transferring formatted documents between completely different word processors (like moving text between Mac and Windows in the 1990s).\n\n### 2. Migration Risks\n**Highly Migratable.** Microsoft discontinued development of the RTF specification back in 2008. Because the format is legacy and can have unpredictable rendering bugs in modern software, all archival RTF files should be migrated to standard PDF/A.\n\n### 3. Technical Limitations\n**Highly Debatable.** The files become extremely bloated and messy because every font change or layout tweak generates massive walls of hidden ASCII control codes, making raw text-mining very difficult.\n\n*Software:* 
+    "tags": ["recommendable"]
   },
       {
-    "id": 19,
+    "id": 17,
     "dataType": "other binaries",
     "title": "gLTF / GLB (Graphics Language Transmission Format)",
     "abstract": "An open standard, royalty-free specification developed by the Khronos Group for the efficient transmission and loading of 3D scenes.",
     "content": "Often described as the 'JPEG of 3D', gLTF minimizes both the size of 3D assets and the runtime processing needed to unpack them.\n\n### 1. Recommendation Criteria\nHighly recommended for 3D web applications, digital heritage preservation, and virtual reality (VR) delivery. It natively supports advanced PBR (Physically Based Rendering) materials, textures, animations, and hierarchical scenes while remaining universally readable in modern browsers.\n\n### 2. Migration Risks\nVery low obsolescence risk due to strict open governance. However, if using the binary version (GLB), ensure compression is kept to open standards (like Draco) so future archive extraction tools can easily decompress the binary streams.\n\n### 3. Technical Limitations\nIt is optimized for efficient rendering and display, meaning it is debated for high-precision manufacturing or mechanical CAD workflows where exact parametric math formulas are preferred over polygonal meshes.\n\n*Software:* 
- }
+    "tags": ["recommendable"]
+      }
 ]
 
