@@ -44,4 +44,58 @@
     "identification": "### Format Identification\n- **Byte Signature (Magic Bytes):** Starts with an 8-byte signature (Hex: `89 50 4E 47 0D 0A 1A 0A`).\n- **Structural Analysis:** Built using a sequence of mandatory chunks: IHDR (header details), IDAT (image data chunks), and IEND (trailer indicator).\n- **Content Analysis:** PRONOM PUID `fmt/11` (for PNG 1.0) or `fmt/12` (for PNG 1.1).",
     "tags": ["recommendable"]
   }
+    {
+    "id": 11,
+    "dataType": "code",
+    "title": "JSON (JavaScript Object Notation)",
+    "abstract": "A lightweight, text-based, and human-readable format used for data interchange and storage.",
+    "content": "JSON structures data using key-value pairs and arrays, making it the standard for web APIs and modern web application data configurations.\n\n### 1. Recommendation Criteria\nHighly recommended for data streaming, configuration layers, and transferring relational or hierarchical data between web servers and clients due to its minimal footprint.\n\n### 2. Migration Risks\nExtremely stable text format. Long-term preservation risks are low, but files must be explicitly validated and saved using standard UTF-8 encoding to prevent special character distortion.\n\n### 3. Technical Limitations\nIt does not support native binary data attachments (requires Base64 encoding) or inline structural comments, which is debated for complex configuration documentation.\n\n*Software:* VS Code, Node.js, Python, modern Web Browsers.",
+    "identification": "### Format Identification\n- **Byte Signature (Magic Bytes):** Typically starts with a left curly bracket `{` (Hex: `7B`) or a left square bracket `[` (Hex: `5B`).\n- **Structural Analysis:** Profiled by checking valid object brackets, matching double-quoted keys, and standard value types (strings, numbers, booleans, null).\n- **Content Analysis:** Recognized by PRONOM as PUID `fmt/817`.",
+    "tags": ["recommendable"]
+  },
+  {
+    "id": 12,
+    "dataType": "audiovisual data",
+    "title": "MP4 (MPEG-4 Part 14 Container)",
+    "abstract": "A multimedia container format universally used to store synchronized video, audio, and subtitle streams.",
+    "content": "MP4 compresses data using industry-standard codecs (like H.264), achieving a near-perfect balance between small file sizes and high playback quality.\n\n### 1. Recommendation Criteria\nThe absolute golden standard for web video delivery, public access streaming copies, and general presentation platforms due to near-100% device compatibility.\n\n### 2. Migration Risks\nWhile ideal for modern distribution, its lossy compression scheme means it is historically monitored for archival masters. Long-term institutions might migrate master content to lossless MKV or MXF containers.\n\n### 3. Technical Limitations\nBecause it discards audio and visual data during compression, it is highly debated as a raw master preservation format for ultra-high-definition cinematic recordings.\n\n*Software:* VLC Media Player, QuickTime Player, HandBrake, Web Browsers.",
+    "identification": "### Format Identification\n- **Byte Signature (Magic Bytes):** Does not have a fixed header byte offset, but look for the ASCII string `ftypmp42`, `ftypisom`, or `ftypMSNV` starting at byte 4 (Hex offset).\n- **Structural Analysis:** Built on the ISO Base Media File Format, structured using nested 'atoms' or 'boxes' (like `ftyp`, `moov`, and `mdat`).\n- **Content Analysis:** Documented in PRONOM under PUID `fmt/199`.",
+    "tags": ["recommendable"]
+  },
+  {
+    "id": 13,
+    "dataType": "code",
+    "title": "HTML (HyperText Markup Language)",
+    "abstract": "The standard open-source markup language designed for structuring and presenting documents on the World Wide Web.",
+    "content": "HTML dictates the layout and semantic structure of web content, interpreting elements into visible web pages through browsers.\n\n### 1. Recommendation Criteria\nHighly recommended for storing web publications, hypertext documentation, and interactive transcripts due to its open-source and future-proof nature.\n\n### 2. Migration Risks\nExtremely low migration risks. Web standards mandate backward compatibility, meaning older HTML files will render for decades. Ensure external assets (CSS/images) are embedded or archived locally alongside it.\n\n### 3. Technical Limitations\nIt relies entirely on browser interpretation, meaning rendering can vary across platforms. It is debated for standalone static documents since it easily links to broken external assets.\n\n*Software:* Google Chrome, Firefox, VS Code, Notepad.",
+    "identification": "### Format Identification\n- **Byte Signature (Magic Bytes):** Often starts with `<!DOCTYPE html` (Hex: `3C 21 44 4F 43 54 59 50 45 20 68 74 6D 6C`) or a `<html>` tag.\n- **Structural Analysis:** Verified by validating elements against W3C standards, looking for semantic nested tags (`<head>`, `<body>`) and closing structures.\n- **Content Analysis:** Profiled by automated profiling tools under PRONOM PUID `fmt/96` (for HTML 4) or `fmt/471` (for HTML 5).",
+    "tags": ["recommendable"]
+  },
+{
+    "id": 14,
+    "dataType": "structured data",
+    "title": "XLSX (Office Open XML Spreadsheet)",
+    "abstract": "The modern zipped XML-based spreadsheet format used for mathematical formulas and tabular computations.",
+    "content": "XLSX serves as the open-standard successor to the proprietary binary `.xls` format, introducing significantly enhanced row capacity.\n\n### 1. Recommendation Criteria\nExcellent for active financial modeling, data tracking, and dynamic calculations where complex multi-sheet formulas must remain operational.\n\n### 2. Migration Risks\n**Migratable for Data Archiving.** While an open standard, complex sheets can harbor hidden dependencies or macros. If the goal is purely to preserve raw data for centuries, XLSX datasets should be migrated to flat CSV or TSV files.\n\n### 3. Technical Limitations\nFormulas can easily break or produce errors if opened in third-party non-Microsoft engines. It is debated for preservation because data values are intertwined with calculation scripts.\n\n*Software:* Microsoft Excel, LibreOffice Calc, Google Sheets.",
+    "identification": "### Format Identification\n- **Byte Signature (Magic Bytes):** Shares the same standard ZIP file header `PK..` (Hex: `50 4B 03 04`).\n- **Structural Analysis:** When unzipped, profiling engines look for a root folder mapping containing `[Content_Types].xml` and a core subfolder named `xl/` containing `workbook.xml`.\n- **Content Analysis:** Maintained in the PRONOM database under PUID `fmt/214`.",
+    "tags": ["migratable"]
+  },
+  {
+    "id": 15,
+    "dataType": "code",
+    "title": "DTD (Document Type Definition)",
+    "abstract": "A legacy configuration file format used to define the valid building blocks and rules of an XML document.",
+    "content": "DTD files specify the exact structure of an XML file by listing legal elements, attributes, and their relationships.\n\n### 1. Recommendation Criteria\nUseful in legacy database workflows and publishing industries that rely on historical XML document structures for validation.\n\n### 2. Migration Risks\n**Migratable for Modern Systems.** While a plain-text format, DTD uses an older, non-XML syntax. Modern data platforms require XML validation schemas to be written in XML syntax, making DTD a candidate for migration into XML Schema (XSD) files.\n\n### 3. Technical Limitations\n**Highly Debatable.** It does not support namespaces or modern complex data types (like numbers, dates, or ranges) – it treats almost all values purely as plain strings.\n\n*Software:* XML Editors, Oxygen XML Author, VS Code, Notepad++.",
+    "identification": "### Format Identification\n- **Byte Signature (Magic Bytes):** No unique header bytes. Read directly as an unformatted plain-text character stream.\n- **Structural Analysis:** Verified by scanning the file context for specialized configuration markup tags starting with `<!ELEMENT` or `<!ATTLIST`.\n- **Content Analysis:** Mapped in PRONOM registries under PUID `fmt/114`.",
+    "tags": ["migratable"]
+  },
+    {
+    "id": 16,
+    "dataType": "plain text",
+    "title": "MD (Markdown Documentation File)",
+    "abstract": "A lightweight plain-text format that uses simple punctuation syntax to describe formatting like bold, headers, and lists.",
+    "content": "Markdown files are written in pure human-readable text, making them extremely popular for software documentation (like README files) and web content generation.\n\n### 1. Recommendation Criteria\nHighly recommended for documentation and long-term text archiving. Because the styling is just regular punctuation (like asterisks for bold), the file remains 100% readable even if opened in the simplest text editor 100 years from now.\n\n### 2. Migration Risks\nExtremely low obsolescence risk. The only preservation action required is verifying that the file is stored with UTF-8 character encoding to prevent international or special characters from breaking.\n\n### 3. Technical Limitations\nIt lacks support for advanced typographic layouts, macro scripts, or complex embedded tables, which is debated if formal document publishing is required.\n\n*Software:* VS Code, Obsidian, Typora, Notepad, GitHub.",
+    "identification": "### Format Identification\n- **Byte Signature (Magic Bytes):** No unique header bytes. Read directly as an unformatted plain-text character stream.\n- **Structural Analysis:** Verified by parsing the text stream for standard Markdown indicators like headers (`#`), bullet points (`-` or `*`), or bold markup (`**`).\n- **Content Analysis:** Profiled by digital preservation tools under PRONOM PUID `fmt/1951`.",
+    "tags": ["recommendable"]
+  }
 ]
