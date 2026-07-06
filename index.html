@@ -103,25 +103,37 @@
       flex-wrap: wrap; 
     }
     
-    .tag-btn { 
-      padding: 8px 16px; 
-      border: 1px solid #ddd; 
-      background: #fff; 
-      border-radius: 20px; 
-      cursor: pointer; 
-      font-size: 14px; 
-      transition: 0.2s; 
-    }
-    
-    .tag-btn:hover { 
-      background: #f5f5f5; 
-    }
-    
-    .tag-btn.active { 
-      background: #0056b3;
-      color: #fff; 
-      border-color: #0056b3; 
-    }
+    /* Standard styling for alle statusknapper */
+.tag-btn { 
+  padding: 8px 16px; 
+  border: 1px solid #ddd; 
+  background: #fff; 
+  border-radius: 20px; 
+  cursor: pointer; 
+  font-size: 14px; 
+  font-weight: 600;
+  transition: all 0.2s ease; 
+}
+
+.tag-btn:hover:not(:disabled) { 
+  background: #f5f5f5; 
+}
+
+/* MAGIEN: Bruker variabelen fra HTML når knappen er aktiv */
+.tag-btn.active {
+  background-color: var(--active-color);
+  border-color: var(--active-color);
+  color: #fff;
+}
+
+/* Hvis en knapp blir deaktivert av søk */
+.tag-btn:disabled {
+  opacity: 0.3 !important;
+  cursor: not-allowed !important;
+  background-color: #f8f9fa !important;
+  color: #adb5bd !important;
+  border-color: #e9ecef !important;
+}
     
     #searchCounter { 
       font-size: 14px; 
