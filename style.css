@@ -29,32 +29,31 @@ h1 {
 }
 
 .data-type-btn {
-  padding: 10px 0; 
-  /* Låser rammen til 1px under alle tilstander for å unngå pikselhopp */
-  border: 1px solid #ccc;
-  background: #fff;
+  padding: 10px 0;
+  border: none; /* FJERNOS RAMME FOR Å STOPPE HOPPING */
   border-radius: 6px;
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
-  box-sizing: border-box; 
-  
-  /* Absolutt låst bredde – ingenting endrer denne */
-  width: 145px; 
+  width: 145px;
   text-align: center;
+  box-sizing: border-box;
   
-  /* Kun bakgrunnsfargen animeres for en rolig flyt */
-  transition: background-color 0.1s ease; 
+  /* PASSIV STATUS: Bruker fargen fra HTML, men gjør den veldig lys/dempet */
+  background-color: var(--bg-color);
+  color: #333;
+  opacity: 0.15;
+  transition: opacity 0.15s ease, color 0.15s ease;
 }
 
-.data-type-btn:hover { 
-  background: #f5f5f5; 
+.data-type-btn:hover {
+  opacity: 0.3; /* Litt tydeligere ved hover */
 }
 
+/* AKTIV STATUS: Knappen lyser opp i sin fulle, flotte farge */
 .data-type-btn.active {
-  background-color: var(--active-color);
-  border-color: var(--active-color) !important;
-  color: #fff;
+  opacity: 1 !important;
+  color: var(--text-color) !important;
 }
 
 /* ==========================================================================
@@ -115,41 +114,39 @@ h1 {
 }
 
 .tag-btn { 
-  padding: 8px 0; 
-  border: 1px solid #ddd; 
-  background: #fff; 
+  padding: 10px 0;
+  border: none; /* FJERNOS RAMME FOR Å STOPPE HOPPING */
   border-radius: 20px; 
   cursor: pointer; 
   font-size: 14px; 
   font-weight: 600;
-  box-sizing: border-box;
-  
-  /* Absolutt låst bredde på statusknappene */
-  width: 175px; 
+  width: 175px;
   text-align: center;
-  
-  /* Kun bakgrunnsfargen animeres */
-  transition: background-color 0.1s ease; 
+  box-sizing: border-box;
+
+  /* PASSIV STATUS: Dempet versjon av trafikklysfargene */
+  background-color: var(--bg-color);
+  color: #333;
+  opacity: 0.15;
+  transition: opacity 0.15s ease, color 0.15s ease;
 }
 
 .tag-btn:hover:not(:disabled) { 
-  background: #f5f5f5; 
+  opacity: 0.3;
 }
 
+/* AKTIV STATUS: Full farge (Grønn / Oransje / Rød / Blå) */
 .tag-btn.active {
-  background-color: var(--active-color);
-  border-color: var(--active-color) !important;
-  color: #fff;
+  opacity: 1 !important;
+  color: var(--text-color) !important;
 }
 
+/* Hvis en knapp blir deaktivert under søk */
 .tag-btn:disabled {
-  opacity: 0.3 !important;
+  opacity: 0.05 !important;
+  color: #999 !important;
   cursor: not-allowed !important;
-  background-color: #f8f9fa !important;
-  color: #adb5bd !important;
-  border-color: #e9ecef !important;
 }
-
 /* ==========================================================================
    5. RESULTS FEEDBACK & COUNTERS
    ========================================================================== */
