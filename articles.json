@@ -88,7 +88,7 @@
     "content": "EXE files are executable programs, meaning they do not store passive data, but rather instruction sets for computers to execute.\n\n### 1. Recommendation Criteria\nOnly kept in software archiving and emulation registry systems attempting to preserve historic digital environments.\n\n### 2. Migration Risks\nExtremely difficult to preserve. When the underlying operating systems or CPU architectures change, the compiled machine code inside an EXE becomes useless without heavy hardware emulation layers.\n\n### 3. Technical Limitations\n**Highly Debatable.** It represents a massive cybersecurity hazard as it can execute arbitrary malicious code. It is completely non-human readable, proprietary, and locked to specific runtime environments.",
     "identification": "### Format Identification\n- **Byte Signature (Magic Bytes):** Starts with the ASCII signature `MZ` (Hex: `4D 5A`), named after architect Mark Zbikowski.\n- **Structural Analysis:** Analyzed using the Portable Executable (PE) file structure, which defines internal COFF headers, section tables (like `.text` for code, `.data` for variables), and import/export tables.\n- **Content Analysis:** Classified under PRONOM PUID `fmt/899`.",
     "tags": ["debatable"]
-  }
+  },
   {
     "id": 11,
     "dataType": "code",
