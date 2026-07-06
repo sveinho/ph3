@@ -29,20 +29,22 @@ h1 {
 }
 
 .data-type-btn {
-  /* Fast topp/bunn-padding, ingen side-padding for å sikre låst bredde */
   padding: 10px 0; 
+  /* Låser rammen til 1px under alle tilstander for å unngå pikselhopp */
   border: 1px solid #ccc;
   background: #fff;
   border-radius: 6px;
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
-  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
   box-sizing: border-box; 
   
-  /* Låser alle datakort-knapper til nøyaktig samme faste bredde */
+  /* Absolutt låst bredde – ingenting endrer denne */
   width: 145px; 
   text-align: center;
+  
+  /* Kun bakgrunnsfargen animeres for en rolig flyt */
+  transition: background-color 0.1s ease; 
 }
 
 .data-type-btn:hover { 
@@ -51,7 +53,7 @@ h1 {
 
 .data-type-btn.active {
   background-color: var(--active-color);
-  border-color: var(--active-color);
+  border-color: var(--active-color) !important;
   color: #fff;
 }
 
@@ -113,25 +115,22 @@ h1 {
 }
 
 .tag-btn { 
-  padding: 8px 0; /* Låser venstre/høyre til 0 for absolutt statisk bredde */
+  padding: 8px 0; 
   border: 1px solid #ddd; 
   background: #fff; 
   border-radius: 20px; 
   cursor: pointer; 
   font-size: 14px; 
   font-weight: 600;
-  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
   box-sizing: border-box;
   
-  /* ULTIMAT FIX: Vi endrer min-width til en fast 'width'. Nå har knappene 
-     nøyaktig samme bredde uansett tekstlengde, aktiv status eller tallendringer. */
+  /* Absolutt låst bredde på statusknappene */
   width: 175px; 
   text-align: center;
+  
+  /* Kun bakgrunnsfargen animeres */
+  transition: background-color 0.1s ease; 
 }
-
-/* Siden alle knapper nå bruker fast 'width: 175px;', trenger vi ikke denne lenger:
-   .tag-btn[data-value="all"] { min-width: 170px; } 
-*/
 
 .tag-btn:hover:not(:disabled) { 
   background: #f5f5f5; 
@@ -139,7 +138,7 @@ h1 {
 
 .tag-btn.active {
   background-color: var(--active-color);
-  border-color: var(--active-color);
+  border-color: var(--active-color) !important;
   color: #fff;
 }
 
