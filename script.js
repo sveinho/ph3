@@ -109,20 +109,22 @@ document.addEventListener('DOMContentLoaded', function() {
       const displayAbstract = isSearching ? getHighlightedHTML(article.abstract, searchWords) : article.abstract;
       const displayContent = isSearching ? getHighlightedHTML(article.content, searchWords) : article.content;
       const displayIdentification = isSearching ? getHighlightedHTML(article.identification, searchWords) : article.identification;
+      const displayAuthority = isSearching ? getHighlightedHTML(article.authority, searchWords) : article.authority; // NY
 
-      return `
-        <article class="filterable" data-id="${article.id}">
-          <h2>${displayTitle}</h2>
-          <p class="abstract-text">${displayAbstract}</p>
-          ${isExpanded 
-            ? `<div class="full-content">
-                 <p>${displayContent}</p>
-                 ${article.identification ? `<div class="identification-content"><p>${displayIdentification}</p></div>` : ''}
-               </div>` 
-            : `<button class="read-more-btn">Read full description →</button>`
-          }
-        </article>
-      `;
+return `
+  <article class="filterable" data-id="${article.id}">
+    <h2>${displayTitle}</h2>
+    <p class="abstract-text">${displayAbstract}</p>
+    ${isExpanded 
+      ? `<div class="full-content">
+           <p>${displayContent}</p>
+           ${article.identification ? `<div class="identification-content"><p>${displayIdentification}</p></div>` : ''}
+           ${article.authority ? `<div class="authority-content"><p>${displayAuthority}</p></div>` : ''}
+         </div>` 
+      : `<button class="read-more-btn">Read full description →</button>`
+    }
+  </article>
+`;
     }).join('');
 
     attachArticleClickEvents();
