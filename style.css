@@ -8,7 +8,10 @@ body {
   padding: 0 20px;
   background-color: #fcfcfc;
   color: #333;
-  scrollbar-gutter: stable;
+  
+  /* ULTIMAT FIX FOR RULLEFELT: Tvinger rullefeltet til å alltid være der, 
+     slik at bredden på siden er 100% identisk om du har 1 eller 100 artikler. */
+  overflow-y: scroll; 
 }
 
 h1 {
@@ -30,30 +33,32 @@ h1 {
 
 .data-type-btn {
   padding: 10px 0;
-  border: none; /* FJERNOS RAMME FOR Å STOPPE HOPPING */
-  border-radius: 6px;
-  font-weight: 600;
-  font-size: 14px;
-  cursor: pointer;
   width: 145px;
   text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 6px;
   box-sizing: border-box;
   
-  /* PASSIV STATUS: Bruker fargen fra HTML, men gjør den veldig lys/dempet */
-  background-color: var(--bg-color);
-  color: #333;
-  opacity: 0.15;
-  transition: opacity 0.15s ease, color 0.15s ease;
+  /* PASSIV STAT: Hvit bakgrunn, svart tekst og tynn grå ramme */
+  background-color: #ffffff;
+  color: #111111;
+  border: 1px solid #cccccc;
+  
+  /* Kun fargeoverganger, ingen dimensjonsendringer */
+  transition: background-color 0.1s ease, border-color 0.1s ease, color 0.1s ease;
 }
 
 .data-type-btn:hover {
-  opacity: 0.3; /* Litt tydeligere ved hover */
+  background-color: #f5f5f5;
 }
 
-/* AKTIV STATUS: Knappen lyser opp i sin fulle, flotte farge */
+/* AKTIV STAT: Lyser opp i din valgte farge med hvit tekst */
 .data-type-btn.active {
-  opacity: 1 !important;
-  color: var(--text-color) !important;
+  background-color: var(--active-color) !important;
+  border-color: var(--active-color) !important;
+  color: #ffffff !important;
 }
 
 /* ==========================================================================
@@ -114,39 +119,43 @@ h1 {
 }
 
 .tag-btn { 
-  padding: 10px 0;
-  border: none; /* FJERNOS RAMME FOR Å STOPPE HOPPING */
-  border-radius: 20px; 
-  cursor: pointer; 
-  font-size: 14px; 
-  font-weight: 600;
+  padding: 8px 0;
   width: 175px;
   text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 20px;
   box-sizing: border-box;
-
-  /* PASSIV STATUS: Dempet versjon av trafikklysfargene */
-  background-color: var(--bg-color);
-  color: #333;
-  opacity: 0.15;
-  transition: opacity 0.15s ease, color 0.15s ease;
+  
+  /* PASSIV STAT: Hvit bakgrunn, svart tekst og tynn grå ramme */
+  background-color: #ffffff;
+  color: #111111;
+  border: 1px solid #dddddd;
+  
+  transition: background-color 0.1s ease, border-color 0.1s ease, color 0.1s ease;
 }
 
 .tag-btn:hover:not(:disabled) { 
-  opacity: 0.3;
+  background-color: #f5f5f5; 
 }
 
-/* AKTIV STATUS: Full farge (Grønn / Oransje / Rød / Blå) */
+/* AKTIV STAT: Får den flotte fargen sin (Grønn / Oransje / Rød / Blå) og hvit tekst */
 .tag-btn.active {
-  opacity: 1 !important;
-  color: var(--text-color) !important;
+  background-color: var(--active-color) !important;
+  border-color: var(--active-color) !important;
+  color: #ffffff !important;
 }
 
-/* Hvis en knapp blir deaktivert under søk */
+/* Hvis en knapp blir deaktivert (0 treff) under søk */
 .tag-btn:disabled {
-  opacity: 0.05 !important;
-  color: #999 !important;
+  opacity: 0.25 !important;
+  background-color: #f8f9fa !important;
+  color: #adb5bd !important;
+  border-color: #e9ecef !important;
   cursor: not-allowed !important;
 }
+
 /* ==========================================================================
    5. RESULTS FEEDBACK & COUNTERS
    ========================================================================== */
@@ -165,7 +174,7 @@ h1 {
 }
 
 /* ==========================================================================
-   6. ARTICLE CARDS & UTFELLING (EXPANSION)
+   6. ARTICLE CARDS & EXPANSION
    ========================================================================== */
 #articlesContainer {
   display: flex;
@@ -224,7 +233,6 @@ h1 {
   border-top: 1px dashed #eee;
 }
 
-/* Den grå, tekniske boksen for dyp filprofilering (Format Identification) */
 .identification-content {
   margin-top: 15px;
   padding: 12px 16px;
@@ -238,7 +246,6 @@ h1 {
   color: #495057;
 }
 
-/* Den blå boksen for offisielle standarder og instanser (Authority) */
 .authority-content {
   margin-top: 15px;
   padding: 12px 16px;
@@ -252,7 +259,6 @@ h1 {
   color: #334155;
 }
 
-/* Gule søkeord */
 mark { 
   background-color: #ffeb3b; 
   padding: 0 2px; 
