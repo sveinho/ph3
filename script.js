@@ -71,11 +71,13 @@ document.addEventListener('DOMContentLoaded', function() {
       const abstractText = (article.abstract || '').toLowerCase();
       const contentText = (article.content || '').toLowerCase();
       const identificationText = (article.identification || '').toLowerCase();
+      // FIX: Definerer authorityText her slik at søkemotoren kan lese den uten å krasje!
+      const authorityText = (article.authority || '').toLowerCase();
       
       const matchesDataType = (currentDataType.toLowerCase().trim() === 'all' || dataType === currentDataType.toLowerCase().trim());
       const matchesTag = (currentTag.toLowerCase().trim() === 'all' || tags.includes(currentTag.toLowerCase().trim()));
       
-      // Søker i tittel, abstract, beskrivelse og identifikasjonsfeltet samtidig
+      // Søker nå trygt i tittel, abstract, beskrivelse, identifikasjon og autoriteter samtidig
       const matchesSearch = searchWords.every(word => 
         `${titleText} ${abstractText} ${contentText} ${identificationText} ${authorityText}`.includes(word)
       );
@@ -85,7 +87,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 2. AUTOMATISK AKTIVERING HVIS DET BARE ER 1 TREFF UNDER SØK:
     if (isSearching && filtered.length === 1) {
-      const singleArticle = filtered[0];
+      // FIX: Henter ut objektet på indeks 0 siden filtered er et array
+      const singleArticle = filtered[0]; 
       activeArticleId = singleArticle.id;
       
       const newDataType = singleArticle.dataType || 'all';
@@ -109,27 +112,28 @@ document.addEventListener('DOMContentLoaded', function() {
       const displayAbstract = isSearching ? getHighlightedHTML(article.abstract, searchWords) : article.abstract;
       const displayContent = isSearching ? getHighlightedHTML(article.content, searchWords) : article.content;
       const displayIdentification = isSearching ? getHighlightedHTML(article.identification, searchWords) : article.identification;
-      const displayAuthority = isSearching ? getHighlightedHTML(article.authority, searchWords) : article.authority; // NY
+      const displayAuthority = isSearching ? getHighlightedHTML(article.authority, searchWords) : article.authority;
 
-return `
-  <article class="filterable" data-id="${article.id}">
-    <h2>${displayTitle}</h2>
-    <p class="abstract-text">${displayAbstract}</p>
-    ${isExpanded 
-      ? `<div class="full-content">
-           <p>${displayContent}</p>
-           ${article.identification ? `<div class="identification-content"><p>${displayIdentification}</p></div>` : ''}
-           ${article.authority ? `<div class="authority-content"><p>${displayAuthority}</p></div>` : ''}
-         </div>` 
-      : `<button class="read-more-btn">Read full description →</button>`
-    }
-  </article>
-`;
+      return `
+        <article class="filterable" data-id="${article.id}">
+          <h2>${displayTitle}</h2>
+          <p class="abstract-text">${displayAbstract}</p>
+          ${isExpanded 
+            ? `<div class="full-content">
+                 <p>${displayContent}</p>
+                 ${article.identification ? `<div class="identification-content"><p>${displayIdentification}</p></div>` : ''}
+                 ${article.authority ? `<div class="authority-content"><p>${displayAuthority}</p></div>` : ''}
+               </div>` 
+            : `<button class="read-more-btn">Read full description →</button>`
+          }
+        </article>
+      `;
     }).join('');
 
     attachArticleClickEvents();
     updateSearchUI(filtered.length, isSearching);
   }
+
   function attachArticleClickEvents() {
     articlesContainer.querySelectorAll('.filterable').forEach(articleEl => {
       articleEl.addEventListener('click', function() {
@@ -167,6 +171,7 @@ return `
       });
     });
   }
+
 
   function updateSearchUI(count, isSearching) {
     if (searchCounter) {
