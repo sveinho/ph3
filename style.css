@@ -35,7 +35,9 @@ h1 {
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  /* Hindrer mikroforskyvning ved å låse rammestørrelsen */
+  box-sizing: border-box; 
 }
 
 .data-type-btn:hover { 
@@ -69,7 +71,7 @@ h1 {
 #resetSearchBtn { 
   position: absolute; 
   right: 14px; 
- top: 50%; 
+  top: 50%; 
   transform: translateY(-50%); 
   background: none; 
   border: none; 
@@ -114,7 +116,19 @@ h1 {
   cursor: pointer; 
   font-size: 14px; 
   font-weight: 600;
-  transition: all 0.2s ease; 
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  box-sizing: border-box;
+  
+  /* FIX FOR HORISONTAL HOPPING: 
+     Gir knappene nok pusterom (minimumsbredde) til at tallene '(5)' 
+     kan dukke opp uten at knappen må utvide seg fysisk i bredden. */
+  min-width: 155px; 
+  text-align: center;
+}
+
+/* Spesifikk justering for den første knappen som har lengre tekst fra før */
+.tag-btn[data-value="all"] {
+  min-width: 170px;
 }
 
 .tag-btn:hover:not(:disabled) { 
@@ -228,17 +242,12 @@ h1 {
   color: #495057;
 }
 
-/* Gule søkeord */
-mark { 
-  background-color: #ffeb3b; 
-  padding: 0 2px; 
-  border-radius: 2px; 
-}
+/* Den blå boksen for offisielle standarder og instanser (Authority) */
 .authority-content {
   margin-top: 15px;
   padding: 12px 16px;
-  background-color: #f0f4f8; /* Svak blå/grå bakgrunn */
-  border-left: 4px solid #0056b3; /* Blå stolpe som matcher status-knappene */
+  background-color: #f0f4f8; 
+  border-left: 4px solid #0056b3; 
   border-radius: 4px;
 }
 
@@ -246,6 +255,14 @@ mark {
   font-family: inherit;
   color: #334155;
 }
+
+/* Gule søkeord */
+mark { 
+  background-color: #ffeb3b; 
+  padding: 0 2px; 
+  border-radius: 2px; 
+}
+
 /* ==========================================================================
    7. UTILITY CLASSES (JAVASCRIPT DEPENDENCIES)
    ========================================================================== */
