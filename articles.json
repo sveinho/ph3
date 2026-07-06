@@ -89,5 +89,39 @@
     "identification": "### Format Identification\n- **Byte Signature (Magic Bytes):** Starts with the ASCII signature `MZ` (Hex: `4D 5A`), named after architect Mark Zbikowski.\n- **Structural Analysis:** Analyzed using the Portable Executable (PE) file structure, which defines internal COFF headers, section tables (like `.text` for code, `.data` for variables), and import/export tables.\n- **Content Analysis:** Classified under PRONOM PUID `fmt/899`.",
     "tags": ["debatable"]
   }
+  {
+    "id": 11,
+    "dataType": "code",
+    "title": "JSON (JavaScript Object Notation)",
+    "abstract": "A lightweight, text-based, and human-readable format used for data interchange and storage.",
+    "content": "JSON structures data using key-value pairs and arrays, making it the standard for web APIs and modern web application data configurations.\n\n### 1. Recommendation Criteria\nHighly recommended for data streaming, configuration layers, and transferring relational or hierarchical data between web servers and clients due to its minimal footprint.\n\n### 2. Migration Risks\nExtremely stable text format. Long-term preservation risks are low, but files must be explicitly validated and saved using standard UTF-8 encoding to prevent special character distortion.\n\n### 3. Technical Limitations\nIt does not support native binary data attachments (requires Base64 encoding) or inline structural comments, which is debated for complex configuration documentation.\n\n*Software:* VS Code, Node.js, Python, modern Web Browsers.",
+    "identification": "### Format Identification\n- **Byte Signature (Magic Bytes):** Typically starts with a left curly bracket `{` (Hex: `7B`) or a left square bracket `[` (Hex: `5B`).\n- **Structural Analysis:** Profiled by checking valid object brackets, matching double-quoted keys, and standard value types (strings, numbers, booleans, null).\n- **Content Analysis:** Recognized by PRONOM as PUID `fmt/817`.",
+    "tags": ["recommendable"]
+  },
+  {
+    "id": 12,
+    "dataType": "audiovisual data",
+    "title": "MP4 (MPEG-4 Part 14 Container)",
+    "abstract": "A multimedia container format universally used to store synchronized video, audio, and subtitle streams.",
+    "content": "MP4 compresses data using industry-standard codecs (like H.264), achieving a near-perfect balance between small file sizes and high playback quality.\n\n### 1. Recommendation Criteria\nThe absolute golden standard for web video delivery, public access streaming copies, and general presentation platforms due to near-100% device compatibility.\n\n### 2. Migration Risks\nWhile ideal for modern distribution, its lossy compression scheme means it is historically monitored for archival masters. Long-term institutions might migrate master content to lossless MKV or MXF containers.\n\n### 3. Technical Limitations\nBecause it discards audio and visual data during compression, it is highly debated as a raw master preservation format for ultra-high-definition cinematic recordings.\n\n*Software:* VLC Media Player, QuickTime Player, HandBrake, Web Browsers.",
+    "identification": "### Format Identification\n- **Byte Signature (Magic Bytes):** Does not have a fixed header byte offset, but look for the ASCII string `ftypmp42`, `ftypisom`, or `ftypMSNV` starting at byte 4 (Hex offset).\n- **Structural Analysis:** Built on the ISO Base Media File Format, structured using nested 'atoms' or 'boxes' (like `ftyp`, `moov`, and `mdat`).\n- **Content Analysis:** Documented in PRONOM under PUID `fmt/199`.",
+    "tags": ["recommendable"]
+  },
+  {
+    "id": 13,
+    "dataType": "code",
+    "title": "HTML (HyperText Markup Language)",
+    "abstract": "The standard open-source markup language designed for structuring and presenting documents on the World Wide Web.",
+    "content": "HTML dictates the layout and semantic structure of web content, interpreting elements into visible web pages through browsers.\n\n### 1. Recommendation Criteria\nHighly recommended for storing web publications, hypertext documentation, and interactive transcripts due to its open-source and future-proof nature.\n\n### 2. Migration Risks\nExtremely low migration risks. Web standards mandate backward compatibility, meaning older HTML files will render for decades. Ensure external assets (CSS/images) are embedded or archived locally alongside it.\n\n### 3. Technical Limitations\nIt relies entirely on browser interpretation, meaning rendering can vary across platforms. It is debated for standalone static documents since it easily links to broken external assets.\n\n*Software:* Google Chrome, Firefox, VS Code, Notepad.",
+    "identification": "### Format Identification\n- **Byte Signature (Magic Bytes):** Often starts with `<!DOCTYPE html` (Hex: `3C 21 44 4F 43 54 59 50 45 20 68 74 6D 6C`) or a `<html>` tag.\n- **Structural Analysis:** Verified by validating elements against W3C standards, looking for semantic nested tags (`<head>`, `<body>`) and closing structures.\n- **Content Analysis:** Profiled by automated profiling tools under PRONOM PUID `fmt/96` (for HTML 4) or `fmt/471` (for HTML 5).",
+    "tags": ["recommendable"]
+  },
+  {
+    "id": 14,
+    "dataType": "plain text",
+    "title": "DOCX (Office Open XML Document)",
+    "abstract": "The modern zipped XML-based file format developed by Microsoft for rich text documents.",
+    "content": "DOCX replaced the older binary `.doc` format in 2007, shifting Microsoft Office toward open and standardized XML specifications.\n\n### 1. Recommendation Criteria\nHighly recommended for active office environments, text editing, and everyday document sharing due to its open-standard nature and wide software support.\n\n### 2. Migration Risks\n**Migratable for Preservation.** While vastly superior to legacy binary `.doc`, complex text layouts in DOCX can still render slightly differently outside Microsoft ecosystems. For static, long-term archiving, DOCX files should be migrated to PDF/A.\n\n### 3. Technical Limitations\nIt is an intricate container holding dozens of linked XML structures, stylesheets, and asset media files, making it heavy and debated for simple plain-text mining.\n\n*Software:* 
+  
 ]
 
