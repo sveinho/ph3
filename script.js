@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Søker i tittel, abstract, beskrivelse og identifikasjonsfeltet samtidig
       const matchesSearch = searchWords.every(word => 
-        `${titleText} ${abstractText} ${contentText} ${identificationText}`.includes(word)
+        `${titleText} ${abstractText} ${contentText} ${identificationText} ${authorityText}`.includes(word)
       );
       
       return matchesDataType && matchesTag && matchesSearch;
