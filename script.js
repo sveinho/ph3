@@ -71,41 +71,44 @@ document.addEventListener('DOMContentLoaded', function() {
       const abstractText = (article.abstract || '').toLowerCase();
       const contentText = (article.content || '').toLowerCase();
       const identificationText = (article.identification || '').toLowerCase();
-      // FIX: Definerer authorityText her slik at søkemotoren kan lese den uten å krasje!
       const authorityText = (article.authority || '').toLowerCase();
       
       const matchesDataType = (currentDataType.toLowerCase().trim() === 'all' || dataType === currentDataType.toLowerCase().trim());
       const matchesTag = (currentTag.toLowerCase().trim() === 'all' || tags.includes(currentTag.toLowerCase().trim()));
       
-      // Søker nå trygt i tittel, abstract, beskrivelse, identifikasjon og autoriteter samtidig
       const matchesSearch = searchWords.every(word => 
         `${titleText} ${abstractText} ${contentText} ${identificationText} ${authorityText}`.includes(word)
       );
       
       return matchesDataType && matchesTag && matchesSearch;
     });
-
     // 2. AUTOMATISK AKTIVERING HVIS DET BARE ER 1 TREFF UNDER SØK:
     if (isSearching && filtered.length === 1) {
-      // FIX: Henter ut objektet på indeks 0 siden filtered er et array
       const singleArticle = filtered[0]; 
       activeArticleId = singleArticle.id;
       
-      const newDataType = singleArticle.dataType || 'all';
-      const newTag = singleArticle.tags && singleArticle.tags.length > 0 ? singleArticle.tags[0] : 'all';
-      
-      currentDataType = newDataType;
-      currentTag = newTag;
+      // FIX: Oppdaterer kun det visuelle på knappene under søking. 
+      // Endrer IKKE currentDataType og currentTag i minnet, så søket forblir globalt.
+      const visualType = singleArticle.dataType || 'all';
+      const visualTag = singleArticle.tags && singleArticle.tags.length > 0 ? singleArticle.tags[0] : 'all';
 
       dataTypeButtons.forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-type')?.toLowerCase() === newDataType.toLowerCase());
+        btn.classList.toggle('active', btn.getAttribute('data-type')?.toLowerCase() === visualType.toLowerCase());
       });
       tagButtons.forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-value')?.toLowerCase() === newTag.toLowerCase());
+        btn.classList.toggle('active', btn.getAttribute('data-value')?.toLowerCase() === visualTag.toLowerCase());
+      });
+    } else {
+      // Sørger for at de opprinnelig valgte knappene forblir aktive under vanlig søk / flere treff
+      dataTypeButtons.forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-type')?.toLowerCase() === currentDataType.toLowerCase());
+      });
+      tagButtons.forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-value')?.toLowerCase() === currentTag.toLowerCase());
       });
     }
 
-    // 3. Generer HTML dynamisk basert på (det potensielt oppdaterte) filteret
+    // 3. Generer HTML dynamisk basert på det filtrerte resultatet (Overstyrer visning)
     articlesContainer.innerHTML = filtered.map(article => {
       const isExpanded = article.id === activeArticleId;
       const displayTitle = isSearching ? getHighlightedHTML(article.title, searchWords) : article.title;
@@ -171,7 +174,6 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
   }
-
 
   function updateSearchUI(count, isSearching) {
     if (searchCounter) {
@@ -263,4 +265,3 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 });
-
