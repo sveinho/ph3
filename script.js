@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
     return html;
   }
 
-  // SØKEMOTOR: Nå optimalisert for lynraskt søk i KUN tittel og automatisk knapp-bytte
+  // SØKEMOTOR: Søker globalt i tittel ved søk, eller følger knapper ved vanlig navigasjon
   function filterArticles() {
     if (!articlesContainer) return;
     const searchWords = searchQuery.split(' ').filter(Boolean);
@@ -65,21 +65,13 @@ document.addEventListener('DOMContentLoaded', function() {
     let filtered = [];
 
     if (isSearching) {
-      // 1. Hvis brukeren SØKER: Søk ALLTID gjennom absolutt alle artikler (ignorer aktive knapper)
+      // Søk går ALLTID gjennom absolutt alle artikler og ignorerer midlertidig knappene
       filtered = allArticles.filter(article => {
         const titleText = (article.title || '').toLowerCase();
         return searchWords.every(word => titleText.includes(word));
       });
-
-      // 2. AUTOMATISK KNAPP-OPPDATERING basert på søketreffene
-      if (filtered.length > 0) {
-        // Ta utgangspunkt i den første matchende artikkelen for å sette nye, relevante knapper
-        const leader = filtered[0];
-        currentDataType = (leader.dataType || 'all').toLowerCase().trim();
-        currentTag = (leader.tags && leader.tags.length > 0 ? leader.tags[0] : 'all').toLowerCase().trim();
-      }
     } else {
-      // 3. Hvis brukeren IKKE søker: Filtrer vanlig basert på knappene som er trykket på
+      // Vanlig navigasjon følger valgte knapper
       filtered = allArticles.filter(article => {
         const dataType = (article.dataType || '').toLowerCase().trim();
         const tags = (article.tags || []).map(t => t.toLowerCase().trim());
@@ -91,14 +83,14 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     }
 
-    // Oppdater det visuelle på knappene slik at de matcher gjeldende tilstand (currentDataType / currentTag)
+    // Oppdater det visuelle på knappene slik at de ALLTID reflekterer gjeldende filtre i minnet
     dataTypeButtons.forEach(btn => {
       btn.classList.toggle('active', btn.getAttribute('data-type')?.toLowerCase() === currentDataType);
     });
     tagButtons.forEach(btn => {
       btn.classList.toggle('active', btn.getAttribute('data-value')?.toLowerCase() === currentTag);
     });
-    // 4. Generer HTML dynamisk for kun de filtrerte artiklene
+    // Generer HTML dynamisk for kun de filtrerte artiklene
     articlesContainer.innerHTML = filtered.map(article => {
       const isExpanded = article.id === activeArticleId;
       const displayTitle = isSearching ? getHighlightedHTML(article.title, searchWords) : article.title;
@@ -123,6 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateSearchUI(filtered.length, isSearching);
   }
 
+  // Her skjer magien når brukeren velger å åpne en artikkel
   function attachArticleClickEvents() {
     articlesContainer.querySelectorAll('.filterable').forEach(articleEl => {
       articleEl.addEventListener('click', function() {
@@ -130,16 +123,21 @@ document.addEventListener('DOMContentLoaded', function() {
         const originalArticle = allArticles.find(a => a.id === articleId);
         
         if (originalArticle) {
+          // Hvis artikkelen allerede er åpen, lukker vi den. Ellers åpner vi den.
           activeArticleId = (activeArticleId === articleId) ? null : articleId;
           
-          // Ved klikk låser vi visningen til denne spesifikke artikkelens kategorier
-          currentDataType = (originalArticle.dataType || 'all').toLowerCase().trim();
-          currentTag = (originalArticle.tags?.find(tag => tag.toLowerCase() !== 'all') || 'all').toLowerCase().trim();
+          if (activeArticleId !== null) {
+            // Siden en artikkel ble ÅPNET, oppdaterer vi knappene i bakgrunnen til å matche denne
+            currentDataType = (originalArticle.dataType || 'all').toLowerCase().trim();
+            currentTag = (originalArticle.tags?.find(tag => tag.toLowerCase() !== 'all') || 'all').toLowerCase().trim();
+            
+            // Vi nullstiller søkefeltet slik at trefflisten tilpasser seg den nye kategorien med en gang
+            searchInput.value = '';
+            searchQuery = '';
+            resetBtn.classList.add('invisible');
+          }
           
-          searchInput.value = '';
-          searchQuery = '';
-          resetBtn.classList.add('invisible');
-          
+          // Kjør filteret på nytt for å tegne opp med utvidet innhold og korrekte knapper
           filterArticles();
 
           if (activeArticleId === articleId) {
@@ -160,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const tagLabel = activeTagBtn ? activeTagBtn.textContent : currentTag;
 
       searchCounter.textContent = isSearching 
-        ? `Søk fant ${count} formater. Relevante kategorier aktivert.`
+        ? `Søk fant ${count} formater totalt i registeret.`
         : `Viser ${count} formater under ${typeLabel} > ${tagLabel}`;
     }
     if (noResults) noResults.classList.toggle('hidden', count > 0);
@@ -187,7 +185,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
   dataTypeButtons.forEach(button => {
     button.addEventListener('click', function() {
-      // Knapp-klikk nullstiller aktivt søk for å unngå kollisjoner
       searchInput.value = '';
       searchQuery = '';
       resetBtn.classList.add('invisible');
