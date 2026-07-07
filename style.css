@@ -261,6 +261,21 @@ mark {
   padding: 0 2px; 
   border-radius: 2px; 
 }
+.close-article-btn {
+  margin-top: 15px;
+  padding: 8px 16px;
+  background-color: #64748b; /* Slate grey */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.close-article-btn:hover {
+  background-color: #475569; /* Mørkere slate ved hover */
+}
 
 /* ==========================================================================
    7. UTILITY CLASSES (JAVASCRIPT DEPENDENCIES)
