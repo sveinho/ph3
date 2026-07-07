@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', function() {
   let currentTag = 'all';
   let searchQuery = '';
   let activeArticleId = null; 
-  const MAX_SUMMARY_LENGTH = 100;
 
   // Visual active mapping on startup
   const defaultDataTypeBtn = Array.from(dataTypeButtons).find(btn => 
@@ -57,75 +56,62 @@ document.addEventListener('DOMContentLoaded', function() {
     return html;
   }
 
-  // The primary query engine executing filter intersections inside RAM
+  // SØKEMOTOR: Nå optimalisert for lynraskt søk i KUN tittel og automatisk knapp-bytte
   function filterArticles() {
     if (!articlesContainer) return;
     const searchWords = searchQuery.split(' ').filter(Boolean);
     const isSearching = searchWords.length > 0;
 
-    // 1. Filtrer basert på gjeldende valg
-    let filtered = allArticles.filter(article => {
-      const dataType = (article.dataType || '').toLowerCase().trim();
-      const tags = (article.tags || []).map(t => t.toLowerCase().trim());
-      const titleText = (article.title || '').toLowerCase();
-      const abstractText = (article.abstract || '').toLowerCase();
-      const contentText = (article.content || '').toLowerCase();
-      const identificationText = (article.identification || '').toLowerCase();
-      const authorityText = (article.authority || '').toLowerCase();
-      
-      const matchesDataType = (currentDataType.toLowerCase().trim() === 'all' || dataType === currentDataType.toLowerCase().trim());
-      const matchesTag = (currentTag.toLowerCase().trim() === 'all' || tags.includes(currentTag.toLowerCase().trim()));
-      
-      const matchesSearch = searchWords.every(word => 
-        `${titleText} ${abstractText} ${contentText} ${identificationText} ${authorityText}`.includes(word)
-      );
-      
-      return matchesDataType && matchesTag && matchesSearch;
-    });
-    // 2. AUTOMATISK AKTIVERING HVIS DET BARE ER 1 TREFF UNDER SØK:
-    if (isSearching && filtered.length === 1) {
-      const singleArticle = filtered[0]; 
-      activeArticleId = singleArticle.id;
-      
-      // FIX: Oppdaterer kun det visuelle på knappene under søking. 
-      // Endrer IKKE currentDataType og currentTag i minnet, så søket forblir globalt.
-      const visualType = singleArticle.dataType || 'all';
-      const visualTag = singleArticle.tags && singleArticle.tags.length > 0 ? singleArticle.tags[0] : 'all';
+    let filtered = [];
 
-      dataTypeButtons.forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-type')?.toLowerCase() === visualType.toLowerCase());
+    if (isSearching) {
+      // 1. Hvis brukeren SØKER: Søk ALLTID gjennom absolutt alle artikler (ignorer aktive knapper)
+      filtered = allArticles.filter(article => {
+        const titleText = (article.title || '').toLowerCase();
+        return searchWords.every(word => titleText.includes(word));
       });
-      tagButtons.forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-value')?.toLowerCase() === visualTag.toLowerCase());
-      });
+
+      // 2. AUTOMATISK KNAPP-OPPDATERING basert på søketreffene
+      if (filtered.length > 0) {
+        // Ta utgangspunkt i den første matchende artikkelen for å sette nye, relevante knapper
+        const leader = filtered[0];
+        currentDataType = (leader.dataType || 'all').toLowerCase().trim();
+        currentTag = (leader.tags && leader.tags.length > 0 ? leader.tags[0] : 'all').toLowerCase().trim();
+      }
     } else {
-      // Sørger for at de opprinnelig valgte knappene forblir aktive under vanlig søk / flere treff
-      dataTypeButtons.forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-type')?.toLowerCase() === currentDataType.toLowerCase());
-      });
-      tagButtons.forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-value')?.toLowerCase() === currentTag.toLowerCase());
+      // 3. Hvis brukeren IKKE søker: Filtrer vanlig basert på knappene som er trykket på
+      filtered = allArticles.filter(article => {
+        const dataType = (article.dataType || '').toLowerCase().trim();
+        const tags = (article.tags || []).map(t => t.toLowerCase().trim());
+        
+        const matchesDataType = (currentDataType === 'all' || dataType === currentDataType);
+        const matchesTag = (currentTag === 'all' || tags.includes(currentTag));
+        
+        return matchesDataType && matchesTag;
       });
     }
 
-    // 3. Generer HTML dynamisk basert på det filtrerte resultatet (Overstyrer visning)
+    // Oppdater det visuelle på knappene slik at de matcher gjeldende tilstand (currentDataType / currentTag)
+    dataTypeButtons.forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-type')?.toLowerCase() === currentDataType);
+    });
+    tagButtons.forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-value')?.toLowerCase() === currentTag);
+    });
+    // 4. Generer HTML dynamisk for kun de filtrerte artiklene
     articlesContainer.innerHTML = filtered.map(article => {
       const isExpanded = article.id === activeArticleId;
       const displayTitle = isSearching ? getHighlightedHTML(article.title, searchWords) : article.title;
-      const displayAbstract = isSearching ? getHighlightedHTML(article.abstract, searchWords) : article.abstract;
-      const displayContent = isSearching ? getHighlightedHTML(article.content, searchWords) : article.content;
-      const displayIdentification = isSearching ? getHighlightedHTML(article.identification, searchWords) : article.identification;
-      const displayAuthority = isSearching ? getHighlightedHTML(article.authority, searchWords) : article.authority;
 
       return `
         <article class="filterable" data-id="${article.id}">
           <h2>${displayTitle}</h2>
-          <p class="abstract-text">${displayAbstract}</p>
+          <p class="abstract-text">${article.abstract || ''}</p>
           ${isExpanded 
             ? `<div class="full-content">
-                 <p>${displayContent}</p>
-                 ${article.identification ? `<div class="identification-content"><p>${displayIdentification}</p></div>` : ''}
-                 ${article.authority ? `<div class="authority-content"><p>${displayAuthority}</p></div>` : ''}
+                 <p>${article.content || ''}</p>
+                 ${article.identification ? `<div class="identification-content"><p>${article.identification}</p></div>` : ''}
+                 ${article.authority ? `<div class="authority-content"><p>${article.authority}</p></div>` : ''}
                </div>` 
             : `<button class="read-more-btn">Read full description →</button>`
           }
@@ -146,23 +132,13 @@ document.addEventListener('DOMContentLoaded', function() {
         if (originalArticle) {
           activeArticleId = (activeArticleId === articleId) ? null : articleId;
           
-          const newDataType = originalArticle.dataType || 'all';
-          const newTag = originalArticle.tags?.find(tag => tag.toLowerCase() !== 'all') || 'all';
-          
-          currentDataType = newDataType;
-          currentTag = newTag;
+          // Ved klikk låser vi visningen til denne spesifikke artikkelens kategorier
+          currentDataType = (originalArticle.dataType || 'all').toLowerCase().trim();
+          currentTag = (originalArticle.tags?.find(tag => tag.toLowerCase() !== 'all') || 'all').toLowerCase().trim();
           
           searchInput.value = '';
           searchQuery = '';
           resetBtn.classList.add('invisible');
-          
-          dataTypeButtons.forEach(btn => {
-            btn.classList.toggle('active', btn.getAttribute('data-type')?.toLowerCase() === newDataType.toLowerCase());
-          });
-
-          tagButtons.forEach(btn => {
-            btn.classList.toggle('active', btn.getAttribute('data-value')?.toLowerCase() === newTag.toLowerCase());
-          });
           
           filterArticles();
 
@@ -183,22 +159,19 @@ document.addEventListener('DOMContentLoaded', function() {
       const typeLabel = activeDataTypeBtn ? activeDataTypeBtn.textContent : currentDataType;
       const tagLabel = activeTagBtn ? activeTagBtn.textContent : currentTag;
 
-      searchCounter.textContent = `Showing ${count} formats under ${typeLabel} > ${tagLabel}`;
+      searchCounter.textContent = isSearching 
+        ? `Søk fant ${count} formater. Relevante kategorier aktivert.`
+        : `Viser ${count} formater under ${typeLabel} > ${tagLabel}`;
     }
     if (noResults) noResults.classList.toggle('hidden', count > 0);
   }
 
-  // SENTRAL FUNKSJON FOR FULL NULLSTILLING
   function resetEntireRegistry() {
     searchInput.value = ''; 
     searchQuery = ''; 
     activeArticleId = null;
     currentDataType = 'all'; 
     currentTag = 'all';
-
-    dataTypeButtons.forEach(btn => btn.classList.toggle('active', btn.getAttribute('data-type')?.toLowerCase() === 'all'));
-    tagButtons.forEach(btn => btn.classList.toggle('active', btn.getAttribute('data-value')?.toLowerCase() === 'all'));
-
     resetBtn.classList.add('invisible');
     filterArticles();
   }
@@ -214,22 +187,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
   dataTypeButtons.forEach(button => {
     button.addEventListener('click', function() {
+      // Knapp-klikk nullstiller aktivt søk for å unngå kollisjoner
       searchInput.value = '';
       searchQuery = '';
       resetBtn.classList.add('invisible');
       activeArticleId = null;
       currentTag = 'all';
 
-      tagButtons.forEach(btn => btn.classList.toggle('active', btn.getAttribute('data-value')?.toLowerCase() === 'all'));
-
       const clickedType = this.getAttribute('data-type');
-      if (currentDataType.toLowerCase() === clickedType?.toLowerCase()) {
-        currentDataType = 'all';
-      } else {
-        currentDataType = clickedType;
-      }
+      currentDataType = (currentDataType === clickedType?.toLowerCase()) ? 'all' : clickedType.toLowerCase();
       
-      dataTypeButtons.forEach(btn => btn.classList.toggle('active', btn.getAttribute('data-type')?.toLowerCase() === currentDataType.toLowerCase()));
       filterArticles();
     });
   });
@@ -254,13 +221,8 @@ document.addEventListener('DOMContentLoaded', function() {
       resetBtn.classList.add('invisible');
       
       const clickedTag = this.getAttribute('data-value');
-      if (currentTag.toLowerCase() === clickedTag?.toLowerCase()) {
-        currentTag = 'all';
-      } else {
-        currentTag = clickedTag;
-      }
+      currentTag = (currentTag === clickedTag?.toLowerCase()) ? 'all' : clickedTag.toLowerCase();
       
-      tagButtons.forEach(btn => btn.classList.toggle('active', btn.getAttribute('data-value')?.toLowerCase() === currentTag.toLowerCase()));
       filterArticles();
     });
   });
