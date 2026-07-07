@@ -104,6 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
                  <p>${article.content || ''}</p>
                  ${article.identification ? `<div class="identification-content"><p>${article.identification}</p></div>` : ''}
                  ${article.authority ? `<div class="authority-content"><p>${article.authority}</p></div>` : ''}
+                 <button class="close-article-btn">Close description ✕</button>
                </div>` 
             : `<button class="read-more-btn">Read full description →</button>`
           }
@@ -115,29 +116,33 @@ document.addEventListener('DOMContentLoaded', function() {
     updateSearchUI(filtered.length, isSearching);
   }
 
-  // Her skjer magien når brukeren velger å åpne en artikkel
+  // Klikkhåndtering for åpning, lukking og oppdatering av knapper
   function attachArticleClickEvents() {
     articlesContainer.querySelectorAll('.filterable').forEach(articleEl => {
-      articleEl.addEventListener('click', function() {
+      
+      // Klikk på selve artikkel-kortet (eller Les mer) for å åpne
+      articleEl.addEventListener('click', function(e) {
+        // Hvis brukeren spesifikt klikket på Lukk-knappen, håndterer vi det separat under
+        if (e.target.classList.contains('close-article-btn')) return;
+
         const articleId = parseInt(this.dataset.id, 10);
         const originalArticle = allArticles.find(a => a.id === articleId);
         
         if (originalArticle) {
-          // Hvis artikkelen allerede er åpen, lukker vi den. Ellers åpner vi den.
-          activeArticleId = (activeArticleId === articleId) ? null : articleId;
+          const isOpening = (activeArticleId !== articleId);
+          activeArticleId = isOpening ? articleId : null;
           
-          if (activeArticleId !== null) {
-            // Siden en artikkel ble ÅPNET, oppdaterer vi knappene i bakgrunnen til å matche denne
+          if (isOpening) {
+            // Oppdater knappene til å matche artikkelen som nettopp ble åpnet
             currentDataType = (originalArticle.dataType || 'all').toLowerCase().trim();
             currentTag = (originalArticle.tags?.find(tag => tag.toLowerCase() !== 'all') || 'all').toLowerCase().trim();
             
-            // Vi nullstiller søkefeltet slik at trefflisten tilpasser seg den nye kategorien med en gang
+            // Nullstill søkefeltet slik at trefflisten tilpasser seg den nye kategorien
             searchInput.value = '';
             searchQuery = '';
             resetBtn.classList.add('invisible');
           }
           
-          // Kjør filteret på nytt for å tegne opp med utvidet innhold og korrekte knapper
           filterArticles();
 
           if (activeArticleId === articleId) {
@@ -146,6 +151,16 @@ document.addEventListener('DOMContentLoaded', function() {
           }
         }
       });
+
+      // Egen logikk for den dedikerte lukk-knappen på innsiden
+      const closeBtn = articleEl.querySelector('.close-article-btn');
+      if (closeBtn) {
+        closeBtn.addEventListener('click', function(e) {
+          e.stopPropagation(); // Hindrer at kortet trigges til å åpne seg igjen umiddelbart
+          activeArticleId = null; // Setter aktiv artikkel til ingenting (lukker)
+          filterArticles(); // Tegner opp listen på nytt innenfor gjeldende kategori
+        });
+      }
     });
   }
 
